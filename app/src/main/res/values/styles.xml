@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="eval_text">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">0dip</item>
+        <item name="android:layout_height">40dip</item>
+        <item name="android:layout_width">40dip</item>
+        <item name="android:paddingLeft">14dip</item>
+        <item name="android:paddingTop">3dip</item>
+    </style>
+    <style name="eval_text_black" parent="eval_text">
+        <item name="android:background">@drawable/black_circle</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_marginLeft">25dip</item>
+    </style>
+    <style name="eval_text_white" parent="eval_text">
+        <item name="android:background">@drawable/white_circle</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:layout_marginRight">17dip</item>
+    </style>
+    <style name="play_choice_text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#ffffff</item>
+        
+        <item name="android:layout_marginLeft">3dip</item>
+        <item name="android:layout_height">52dip</item>
+        <item name="android:layout_width">52dip</item>
+        <item name="android:background">@drawable/olive_circle2</item>
+    </style>
+    <style name="play_choice_rdo_text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#ffffff</item>
+        
+        <item name="android:layout_marginLeft">7dip</item>
+        <item name="android:layout_height">40dip</item>
+        <item name="android:layout_width">40dip</item>
+    </style>
+    <style name="color_chooser_dialog_item">
+        <item name="android:height">56dip</item>
+        <item name="android:width">56dip</item>
+        <item name="android:layout_marginRight">10dip</item>
+        <item name="android:layout_height">56dip</item>
+        <item name="android:layout_width">56dip</item>
+    </style>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, Main!</string>
+    <string name="app_name">LogicTrainer</string>
+    <string name="add_new_game">New Game</string>
+    <string name="check">Check</string>
+    <string name="exit">Exit</string>
+    <string name="solution">Solution</string>
+    <string name="option_duplicate_colors_codemaker">Allow duplicate colors for code maker</string>
+    <string name="option_duplicate_colors_codebreaker">Allow duplicate colors for code breaker</string>
+    <string name="option_unlimited_trial">Unlimited trials</string>
+    <string name="options">Options</string>
+    <string name="zero">0</string>
+    <string name="win">Congratulations. You win!</string>
+    <string name="lost">Sorry. You lost!</string>
+    <string name="pick_color">Pick a color</string>
+</resources>

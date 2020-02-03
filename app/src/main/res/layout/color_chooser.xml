@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="5dip"
+        android:layout_marginStart="5dip">
+
+        <TextView
+            android:id="@+id/color_chooser_red"
+            style="@style/color_chooser_dialog_item"
+            android:background="@drawable/red_circle" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/color_chooser_green"
+            style="@style/color_chooser_dialog_item"
+            android:background="@drawable/green_circle" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/color_chooser_blue"
+            style="@style/color_chooser_dialog_item"
+            android:background="@drawable/blue_circle" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_marginStart="5dip">
+
+        <TextView
+            android:id="@+id/color_chooser_yellow"
+            style="@style/color_chooser_dialog_item"
+            android:background="@drawable/yellow_circle" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/color_chooser_orange"
+            style="@style/color_chooser_dialog_item"
+            android:background="@drawable/orange_circle" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/color_chooser_brown"
+            style="@style/color_chooser_dialog_item"
+            android:background="@drawable/brown_circle" >
+        </TextView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/color_chooser_empty"
+        style="@style/color_chooser_dialog_item"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="9dip"
+        android:layout_marginBottom="12dip"
+        android:background="@drawable/olive_circle"
+        android:layout_marginStart="9dip" />
+
+</LinearLayout>

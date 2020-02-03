@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="4dip"
+        android:paddingBottom="4dip"
+        android:paddingStart="10dip">
+
+        <TextView
+            android:id="@+id/play_choice_textview1"
+            style="@style/play_choice_rdo_text" />
+
+        <TextView
+            android:id="@+id/play_choice_textview2"
+            style="@style/play_choice_rdo_text" />
+
+        <TextView
+            android:id="@+id/play_choice_textview3"
+            style="@style/play_choice_rdo_text" />
+
+        <TextView
+            android:id="@+id/play_choice_textview4"
+            style="@style/play_choice_rdo_text" />
+
+        <TextView
+            android:id="@+id/eval_black_textview"
+            style="@style/eval_text_black"
+            android:text="@string/zero" />
+
+        <TextView
+            android:id="@+id/eval_white_textview"
+            style="@style/eval_text_white"
+            android:text="@string/zero" />
+    </LinearLayout>
+</LinearLayout>
