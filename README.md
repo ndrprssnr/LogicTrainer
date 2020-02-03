@@ -1,0 +1,2 @@
+# LogicTrainer
+Mastermind clone.
