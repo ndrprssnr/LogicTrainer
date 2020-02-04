@@ -64,7 +64,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="9dip"
         android:layout_marginBottom="12dip"
-        android:background="@drawable/olive_circle"
+        android:background="@drawable/empty_circle_large"
         android:layout_marginStart="9dip" />
 
 </LinearLayout>
