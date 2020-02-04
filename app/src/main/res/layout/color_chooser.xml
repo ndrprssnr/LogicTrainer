@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -55,16 +55,17 @@
             style="@style/color_chooser_dialog_item"
             android:background="@drawable/brown_circle" >
         </TextView>
+        <TextView
+            android:id="@+id/color_chooser_empty"
+            style="@style/color_chooser_dialog_item"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="9dip"
+            android:layout_marginBottom="12dip"
+            android:background="@drawable/empty_circle_large"
+            android:layout_marginStart="9dip" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/color_chooser_empty"
-        style="@style/color_chooser_dialog_item"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="9dip"
-        android:layout_marginBottom="12dip"
-        android:background="@drawable/empty_circle_large"
-        android:layout_marginStart="9dip" />
+
 
 </LinearLayout>

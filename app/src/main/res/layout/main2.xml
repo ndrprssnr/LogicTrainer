@@ -28,6 +28,7 @@
         </LinearLayout>
     </ScrollView>
 
+    <include layout="@layout/color_chooser"/>
     <LinearLayout
         android:id="@+id/codebreaker_panel"
         android:layout_width="match_parent"
