@@ -352,7 +352,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 					break;
 			}
 		} else {
-			shape = res.getDrawable(R.drawable.olive_circle2);
+			shape = res.getDrawable(R.drawable.empty_circle);
 		}
 
 		if (shape != null) {
@@ -388,13 +388,13 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 	public void resetCodebreakerPanel() {
 		TextView v1 = codebreakerPanel.findViewById(R.id.play_choice_textview1);
-		v1.setBackgroundResource(R.drawable.olive_circle2);
+		v1.setBackgroundResource(R.drawable.empty_circle);
 		TextView v2 = codebreakerPanel.findViewById(R.id.play_choice_textview2);
-		v2.setBackgroundResource(R.drawable.olive_circle2);
+		v2.setBackgroundResource(R.drawable.empty_circle);
 		TextView v3 = codebreakerPanel.findViewById(R.id.play_choice_textview3);
-		v3.setBackgroundResource(R.drawable.olive_circle2);
+		v3.setBackgroundResource(R.drawable.empty_circle);
 		TextView v4 = codebreakerPanel.findViewById(R.id.play_choice_textview4);
-		v4.setBackgroundResource(R.drawable.olive_circle2);
+		v4.setBackgroundResource(R.drawable.empty_circle);
 
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		trainer.resetPlayerPanel();
@@ -420,7 +420,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 				break;
 		}
 
-		int drawable = (pressed) ? R.drawable.olive_circle_pressed2 : R.drawable.olive_circle2;
+		int drawable = (pressed) ? R.drawable.empty_circle_pressed : R.drawable.empty_circle;
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		if (trainer.getCurrentCodebreakerPanel()[index - 1] != null) {
 			switch (trainer.getCurrentCodebreakerPanel()[index - 1]) {

@@ -17,4 +17,9 @@ public class LogicTrainerTest {
 		assertFalse(trainer.isWon());
 	}
 
+	@Test
+	public void testInitialGameIsNotGameOver() {
+		LogicTrainer trainer = new LogicTrainer(new Options());
+		assertTrue(trainer.isNotGameOver());
+	}
 }

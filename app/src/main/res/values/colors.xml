@@ -8,5 +8,5 @@
     <color name="orange">#ff6600</color>
     <color name="background">#aa4400</color>
     <color name="codemaker_panel">#50ffffff</color>
-    <color name="codebreaker_panel">#77933c</color>
+    <color name="codebreaker_panel">#40ffffff</color>
 </resources>
