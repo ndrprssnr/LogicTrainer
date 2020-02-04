@@ -22,4 +22,10 @@ public class LogicTrainerTest {
 		LogicTrainer trainer = new LogicTrainer(new Options());
 		assertTrue(trainer.isNotGameOver());
 	}
+
+	@Test
+	public void testInitialGameCannotCheck() {
+		LogicTrainer trainer = new LogicTrainer(new Options());
+		assertFalse(trainer.canCheck());
+	}
 }
