@@ -46,6 +46,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 	private View codebreakerPanel;
 	private int selectedIndex = -1;
+	private View selectedColorView = null;
 
 	private GestureLibrary gestureLib;
 
@@ -57,9 +58,12 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 				final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 				if (trainer.isNotGameOver()) {
 					selectedIndex = index;
+					selectedColorView = v;
 					setCodebreakerButton(index, true);
-					Dialog dialog = getColorChooserDialog(index, v);
-					dialog.show();
+//					Dialog dialog = getColorChooserDialog(/*index,*/ v);
+					final View colorChooserView = findViewById(R.id.colorchooser);
+					colorChooserView.setVisibility(View.VISIBLE);
+//					dialog.show();
 				}
 			}
 		};
@@ -74,21 +78,20 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 //	}
 
 
-	private Dialog getColorChooserDialog(final int index, final View colorView) {
+	private void initColorChooserPanel(/*final int index, final View colorView*/) {
 
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-		View layout = inflater.inflate(R.layout.color_chooser, null);
+		final View colorChooserView = findViewById(R.id.colorchooser);
+		colorChooserView.setVisibility(View.GONE);
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		layout.setMinimumWidth(300);
-		builder.setView(layout);
-		final AlertDialog dialog = builder.create();
-
-//		Context context = getApplicationContext();
-//		final Dialog dialog = new Dialog(context);
-//		dialog.setContentView(R.layout.color_chooser);
-
-		dialog.setTitle(getString(R.string.pick_color));
+//		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+//		View layout = inflater.inflate(R.layout.color_chooser, null);
+//
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+////		layout.setMinimumWidth(300);
+//		builder.setView(layout);
+//		final AlertDialog dialog = builder.create();
+//
+//		dialog.setTitle(getString(R.string.pick_color));
 
 		OnClickListener listener = new OnClickListener() {
 			@Override
@@ -96,74 +99,75 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 				final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 				switch (v.getId()) {
 					case R.id.color_chooser_red:
-						trainer.setPlayerChoice(index - 1, PlayColors.Red);
-						setPlayColor(colorView, PlayColors.Red);
+						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Red);
+						setPlayColor(selectedColorView, PlayColors.Red);
 						break;
 					case R.id.color_chooser_green:
-						trainer.setPlayerChoice(index - 1, PlayColors.Green);
-						setPlayColor(colorView, PlayColors.Green);
+						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Green);
+						setPlayColor(selectedColorView, PlayColors.Green);
 						break;
 					case R.id.color_chooser_blue:
-						trainer.setPlayerChoice(index - 1, PlayColors.Blue);
-						setPlayColor(colorView, PlayColors.Blue);
+						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Blue);
+						setPlayColor(selectedColorView, PlayColors.Blue);
 						break;
 					case R.id.color_chooser_yellow:
-						trainer.setPlayerChoice(index - 1, PlayColors.Yellow);
-						setPlayColor(colorView, PlayColors.Yellow);
+						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Yellow);
+						setPlayColor(selectedColorView, PlayColors.Yellow);
 						break;
 					case R.id.color_chooser_orange:
-						trainer.setPlayerChoice(index - 1, PlayColors.Orange);
-						setPlayColor(colorView, PlayColors.Orange);
+						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Orange);
+						setPlayColor(selectedColorView, PlayColors.Orange);
 						break;
 					case R.id.color_chooser_brown:
-						trainer.setPlayerChoice(index - 1, PlayColors.Brown);
-						setPlayColor(colorView, PlayColors.Brown);
+						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Brown);
+						setPlayColor(selectedColorView, PlayColors.Brown);
 						break;
 					case R.id.color_chooser_empty:
-						trainer.setPlayerChoice(index - 1, null);
-						setPlayColor(colorView, null);
+						trainer.setPlayerChoice(selectedIndex - 1, null);
+						setPlayColor(selectedColorView, null);
 				}
 
 				Button checkButton = findViewById(R.id.check_button);
 				checkButton.setEnabled(trainer.canCheck());
 				selectedIndex = -1;
-				dialog.dismiss();
+				selectedColorView = null;
+//				dialog.dismiss();
+				colorChooserView.setVisibility(View.GONE);
 			}
 		};
 
 		TextView view;
-		view = layout.findViewById(R.id.color_chooser_red);
+		view = colorChooserView.findViewById(R.id.color_chooser_red);
 		view.setOnClickListener(listener);
-		view = layout.findViewById(R.id.color_chooser_green);
+		view = colorChooserView.findViewById(R.id.color_chooser_green);
 		view.setOnClickListener(listener);
-		view = layout.findViewById(R.id.color_chooser_blue);
+		view = colorChooserView.findViewById(R.id.color_chooser_blue);
 		view.setOnClickListener(listener);
-		view = layout.findViewById(R.id.color_chooser_yellow);
+		view = colorChooserView.findViewById(R.id.color_chooser_yellow);
 		view.setOnClickListener(listener);
-		view = layout.findViewById(R.id.color_chooser_orange);
+		view = colorChooserView.findViewById(R.id.color_chooser_orange);
 		view.setOnClickListener(listener);
-		view = layout.findViewById(R.id.color_chooser_brown);
+		view = colorChooserView.findViewById(R.id.color_chooser_brown);
 		view.setOnClickListener(listener);
-		view = layout.findViewById(R.id.color_chooser_empty);
+		view = colorChooserView.findViewById(R.id.color_chooser_empty);
 		view.setOnClickListener(listener);
 
-		dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-			@Override
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				dialog.dismiss();
-				return true;
-			}
-		});
-		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				if (selectedIndex > 0 && selectedIndex <= 4) {
-					setCodebreakerButton(selectedIndex, false);
-					selectedIndex = -1;
-				}
-			}
-		});
-		return dialog;
+//		dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+//			@Override
+//			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+//				dialog.dismiss();
+//				return true;
+//			}
+//		});
+//		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//			@Override
+//			public void onDismiss(DialogInterface dialog) {
+//				if (selectedIndex > 0 && selectedIndex <= 4) {
+//					setCodebreakerButton(selectedIndex, false);
+//					selectedIndex = -1;
+//				}
+//			}
+//		});
 	}
 
 
@@ -239,6 +243,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		final LinearLayout playfield = findViewById(R.id.codebreaker_panels);
 
 		initCodebreakerPanel(trainer.getCurrentCodebreakerPanel());
+		initColorChooserPanel();
 
 		Button checkButton = findViewById(R.id.check_button);
 		checkButton.setEnabled(trainer.canCheck());
