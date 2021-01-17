@@ -16,8 +16,8 @@ Use the code breaker panel below to enter your guess. Press the "Check" button t
 You have 7 guesses, unless the Option "Unlimited trials" is checked.
 
     Note: The game supports gestures:
-      * Paint an "N" to create a new game.
-      * Paint an "O" to show the Options screen.
+      * Draw an "N" to create a new game.
+      * Draw an "O" to show the Options screen.
 
 ## Screenshots
 
