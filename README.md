@@ -9,10 +9,10 @@ This was my very first Android project.
 
 ## Screenshots
 
+### The Game with Color Chooser for Code Breaker
+
 ![Game](screenshot-game.png)
 
-The Game with Color Chooser for Code Breaker
+### Game Options
 
 ![Options](screenshot-options.png)
-
-Game Options
