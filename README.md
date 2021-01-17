@@ -5,4 +5,14 @@
 Yet another Mastermind clone for Android.
 Name based on the Mastermind clone [Logic Trainer](https://www.ddr-museum.de/objectdatabase/daphne/3/33867.pressedownload.jpg).
 
-My very first Android project.
+This was my very first Android project.
+
+## Screenshots
+
+![Game](screenshot-game.png)
+
+The Game with Color Chooser for Code Breaker
+
+![Options](screenshot-options.png)
+
+Game Options
