@@ -128,6 +128,14 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		view.setOnLongClickListener(longClickListener);
 	}
 
+	private void resetColorChooser() {
+		lockedColors.clear();
+		final View colorChooserView = findViewById(R.id.colorchooser);
+		for (int viewId : viewIdToColorMap.keySet()) {
+			unlockColor((ImageView) colorChooserView.findViewById(viewId));
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -234,6 +242,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private void newGame() {
 		((LogicTrainerApplication) getApplicationContext()).resetLogicTrainer();
 		resetCodebreakerPanel();
+		resetColorChooser();
 		final LinearLayout playfield = findViewById(R.id.codebreaker_panels);
 		playfield.removeAllViews();
 		Button checkButton = findViewById(R.id.check_button);
@@ -440,7 +449,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
 		imageView.setColorFilter(filter);
-		imageView.setImageAlpha(128);
+		imageView.setImageAlpha(64);
 	}
 
 	private void unlockColor(ImageView imageView) {
