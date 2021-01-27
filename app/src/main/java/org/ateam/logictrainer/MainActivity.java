@@ -57,6 +57,9 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 			public void onClick(final View v) {
 				final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 				if (trainer.isNotGameOver()) {
+					if (selectedIndex > -1) {
+						setCodebreakerButton(selectedIndex, false);
+					}
 					selectedIndex = index;
 					selectedColorView = v;
 					setCodebreakerButton(index, true);
