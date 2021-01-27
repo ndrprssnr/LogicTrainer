@@ -23,8 +23,8 @@ You have 7 guesses, unless the Option "Unlimited trials" is checked.
 
 ### The Game with Color Chooser for Code Breaker
 
-![Game](screenshot-game.png)
+<img src="screenshot-game.png" alt="Game" width="50%"/>
 
 ### Game Options
 
-![Options](screenshot-options.png)
+<img src="screenshot-options.png" alt="Options" width="50%"/>
