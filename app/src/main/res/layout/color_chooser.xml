@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -13,23 +14,24 @@
         android:layout_marginTop="5dip"
         android:layout_marginStart="5dip">
 
-        <TextView
+        <ImageView
             android:id="@+id/color_chooser_red"
             style="@style/color_chooser_dialog_item"
-            android:background="@drawable/red_circle" >
-        </TextView>
+            android:contentDescription="@string/red"
+            android:src="@drawable/red_circle" />
 
-        <TextView
+        <ImageView
             android:id="@+id/color_chooser_green"
             style="@style/color_chooser_dialog_item"
-            android:background="@drawable/green_circle" >
-        </TextView>
+            android:contentDescription="@string/green"
+            android:src="@drawable/green_circle" />
 
-        <TextView
+        <ImageView
             android:id="@+id/color_chooser_blue"
             style="@style/color_chooser_dialog_item"
-            android:background="@drawable/blue_circle" >
-        </TextView>
+            android:contentDescription="@string/blue"
+            android:src="@drawable/blue_circle" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -39,32 +41,34 @@
         android:layout_marginTop="5dip"
         android:layout_marginStart="5dip">
 
-        <TextView
+        <ImageView
             android:id="@+id/color_chooser_yellow"
             style="@style/color_chooser_dialog_item"
-            android:background="@drawable/yellow_circle" >
-        </TextView>
+            android:contentDescription="@string/yellow"
+            android:src="@drawable/yellow_circle" />
 
-        <TextView
+        <ImageView
             android:id="@+id/color_chooser_orange"
             style="@style/color_chooser_dialog_item"
-            android:background="@drawable/orange_circle" >
-        </TextView>
+            android:contentDescription="@string/orange"
+            android:src="@drawable/orange_circle" />
 
-        <TextView
+        <ImageView
             android:id="@+id/color_chooser_brown"
             style="@style/color_chooser_dialog_item"
-            android:background="@drawable/brown_circle" >
-        </TextView>
-        <TextView
+            android:contentDescription="@string/brown"
+            android:src="@drawable/brown_circle" />
+
+        <ImageView
             android:id="@+id/color_chooser_empty"
             style="@style/color_chooser_dialog_item"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginStart="9dip"
             android:layout_marginTop="9dip"
             android:layout_marginBottom="12dip"
-            android:background="@drawable/empty_circle_large"
-            android:layout_marginStart="9dip" />
+            android:contentDescription="@string/empty"
+            android:src="@drawable/empty_circle" />
     </LinearLayout>
 
 

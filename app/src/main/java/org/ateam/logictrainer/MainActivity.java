@@ -1,16 +1,7 @@
 package org.ateam.logictrainer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.ateam.logictrainer.LogicTrainer.PlayColors;
-import org.ateam.logictrainer.LogicTrainer.Result;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.gesture.Gesture;
@@ -19,9 +10,10 @@ import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.GestureOverlayView.OnGesturePerformedListener;
 import android.gesture.Prediction;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,10 +21,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.ateam.logictrainer.LogicTrainer.PlayColors;
+import org.ateam.logictrainer.LogicTrainer.Result;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends Activity implements OnGesturePerformedListener {
 
@@ -40,139 +41,100 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private static final String ACTION_LEFT = "action_left";
 	private static final String ACTION_OPTIONS = "action_options";
 
-	private static final int DIALOG_COLORCHOOSER_ID = 0;
-
 	private static final int[] PLAYCHOICE_IDS = new int[]{R.id.play_choice_textview1, R.id.play_choice_textview2, R.id.play_choice_textview3, R.id.play_choice_textview4};
+	private static final Map<Integer, PlayColors> viewIdToColorMap;
+	static {
+		viewIdToColorMap = new HashMap<>();
+		viewIdToColorMap.put(R.id.color_chooser_red, PlayColors.Red);
+		viewIdToColorMap.put(R.id.color_chooser_green, PlayColors.Green);
+		viewIdToColorMap.put(R.id.color_chooser_blue, PlayColors.Blue);
+		viewIdToColorMap.put(R.id.color_chooser_yellow, PlayColors.Yellow);
+		viewIdToColorMap.put(R.id.color_chooser_orange, PlayColors.Orange);
+		viewIdToColorMap.put(R.id.color_chooser_brown, PlayColors.Brown);
+		viewIdToColorMap.put(R.id.color_chooser_empty, null);
+	}
 
 	private View codebreakerPanel;
 	private int selectedIndex = -1;
 	private View selectedColorView = null;
+	private Map<PlayColors, Boolean> lockedColors = new HashMap<>();
 
 	private GestureLibrary gestureLib;
 
 
 	private OnClickListener getListener(final int index) {
-		return new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
-				if (trainer.isNotGameOver()) {
-					if (selectedIndex > -1) {
-						setCodebreakerButton(selectedIndex, false);
-					}
-					selectedIndex = index;
-					selectedColorView = v;
-					setCodebreakerButton(index, true);
-//					Dialog dialog = getColorChooserDialog(/*index,*/ v);
-					final View colorChooserView = findViewById(R.id.colorchooser);
-					colorChooserView.setVisibility(View.VISIBLE);
-//					dialog.show();
+		return v -> {
+			final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
+			if (trainer.isNotGameOver()) {
+				if (selectedIndex > -1) {
+					setCodebreakerButton(selectedIndex, false);
 				}
+				selectedIndex = index;
+				selectedColorView = v;
+				setCodebreakerButton(index, true);
+				final View colorChooserView = findViewById(R.id.colorchooser);
+				colorChooserView.setVisibility(View.VISIBLE);
 			}
 		};
 	}
 
-
-//	@Override
-//	protected Dialog onCreateDialog(int id) {
-//		switch (id) {
-//		case DIALOG_COLORCHOOSER_ID: return getColorChooserDialog(index, colorView)
-//		}
-//	}
-
-
-	private void initColorChooserPanel(/*final int index, final View colorView*/) {
+	private void initColorChooserPanel() {
 
 		final View colorChooserView = findViewById(R.id.colorchooser);
 		colorChooserView.setVisibility(View.GONE);
 
-//		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-//		View layout = inflater.inflate(R.layout.color_chooser, null);
-//
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-////		layout.setMinimumWidth(300);
-//		builder.setView(layout);
-//		final AlertDialog dialog = builder.create();
-//
-//		dialog.setTitle(getString(R.string.pick_color));
-
-		OnClickListener listener = new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
-				switch (v.getId()) {
-					case R.id.color_chooser_red:
-						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Red);
-						setPlayColor(selectedColorView, PlayColors.Red);
-						break;
-					case R.id.color_chooser_green:
-						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Green);
-						setPlayColor(selectedColorView, PlayColors.Green);
-						break;
-					case R.id.color_chooser_blue:
-						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Blue);
-						setPlayColor(selectedColorView, PlayColors.Blue);
-						break;
-					case R.id.color_chooser_yellow:
-						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Yellow);
-						setPlayColor(selectedColorView, PlayColors.Yellow);
-						break;
-					case R.id.color_chooser_orange:
-						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Orange);
-						setPlayColor(selectedColorView, PlayColors.Orange);
-						break;
-					case R.id.color_chooser_brown:
-						trainer.setPlayerChoice(selectedIndex - 1, PlayColors.Brown);
-						setPlayColor(selectedColorView, PlayColors.Brown);
-						break;
-					case R.id.color_chooser_empty:
-						trainer.setPlayerChoice(selectedIndex - 1, null);
-						setPlayColor(selectedColorView, null);
-				}
+		OnClickListener listener = v -> {
+			final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
+			PlayColors color = viewIdToColorMap.getOrDefault(v.getId(), null);
+			if (!lockedColors.getOrDefault(color, false)) {
+				trainer.setPlayerChoice(selectedIndex - 1, color);
+				setPlayColor(selectedColorView, color);
 
 				Button checkButton = findViewById(R.id.check_button);
 				checkButton.setEnabled(trainer.canCheck());
 				selectedIndex = -1;
 				selectedColorView = null;
-//				dialog.dismiss();
 				colorChooserView.setVisibility(View.GONE);
 			}
 		};
 
-		TextView view;
-		view = colorChooserView.findViewById(R.id.color_chooser_red);
-		view.setOnClickListener(listener);
-		view = colorChooserView.findViewById(R.id.color_chooser_green);
-		view.setOnClickListener(listener);
-		view = colorChooserView.findViewById(R.id.color_chooser_blue);
-		view.setOnClickListener(listener);
-		view = colorChooserView.findViewById(R.id.color_chooser_yellow);
-		view.setOnClickListener(listener);
-		view = colorChooserView.findViewById(R.id.color_chooser_orange);
-		view.setOnClickListener(listener);
-		view = colorChooserView.findViewById(R.id.color_chooser_brown);
-		view.setOnClickListener(listener);
-		view = colorChooserView.findViewById(R.id.color_chooser_empty);
-		view.setOnClickListener(listener);
-
-//		dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-//			@Override
-//			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-//				dialog.dismiss();
-//				return true;
-//			}
-//		});
-//		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//			@Override
-//			public void onDismiss(DialogInterface dialog) {
-//				if (selectedIndex > 0 && selectedIndex <= 4) {
-//					setCodebreakerButton(selectedIndex, false);
-//					selectedIndex = -1;
-//				}
-//			}
-//		});
+		View.OnLongClickListener longClickListener = v -> {
+			PlayColors color = viewIdToColorMap.getOrDefault(v.getId(), null);
+			if (color == null) {
+				return true;
+			}
+			if (!lockedColors.getOrDefault(color, false)) {
+				lockedColors.put(color, true);
+				lockColor((ImageView) v);
+			} else {
+				lockedColors.put(color, false);
+				unlockColor((ImageView)v);
+			}
+			return true;
+		};
+		setColorChooserListeners(colorChooserView, R.id.color_chooser_red, listener, longClickListener);
+		setColorChooserListeners(colorChooserView, R.id.color_chooser_green, listener, longClickListener);
+		setColorChooserListeners(colorChooserView, R.id.color_chooser_blue, listener, longClickListener);
+		setColorChooserListeners(colorChooserView, R.id.color_chooser_yellow, listener, longClickListener);
+		setColorChooserListeners(colorChooserView, R.id.color_chooser_orange, listener, longClickListener);
+		setColorChooserListeners(colorChooserView, R.id.color_chooser_brown, listener, longClickListener);
+		setColorChooserListeners(colorChooserView, R.id.color_chooser_empty, listener, longClickListener);
 	}
 
+	private void setColorChooserListeners(View colorChooserView, int colorViewId, OnClickListener onClickListener, View.OnLongClickListener longClickListener) {
+		View view;
+		view = colorChooserView.findViewById(colorViewId);
+		view.setOnClickListener(onClickListener);
+		view.setOnLongClickListener(longClickListener);
+	}
+
+	private void resetColorChooser() {
+		lockedColors.clear();
+		final View colorChooserView = findViewById(R.id.colorchooser);
+		for (int viewId : viewIdToColorMap.keySet()) {
+			unlockColor((ImageView) colorChooserView.findViewById(viewId));
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,8 +166,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		//        setContentView(R.layout.main2);
 
 		GestureOverlayView gestureOverlayView = new GestureOverlayView(this);
 		View inflate = getLayoutInflater().inflate(R.layout.main2, null);
@@ -250,24 +210,21 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 		Button checkButton = findViewById(R.id.check_button);
 		checkButton.setEnabled(trainer.canCheck());
-		checkButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Button checkButton = findViewById(R.id.check_button);
-				checkButton.setEnabled(false);
-				LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
-				if (trainer.isNotGameOver()) { // check should be unnecessary, but just in case...
-					PlayColors[] codebreakerPanel = trainer.getCurrentCodebreakerPanel();
-					Result eval = trainer.makeStep();
-					addLine(playfield, codebreakerPanel, eval);
-					if (trainer.isNotGameOver()) {
-						resetCodebreakerPanel();
+		checkButton.setOnClickListener(v -> {
+			Button checkButton1 = findViewById(R.id.check_button);
+			checkButton1.setEnabled(false);
+			LogicTrainer trainer1 = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
+			if (trainer1.isNotGameOver()) { // check should be unnecessary, but just in case...
+				PlayColors[] codebreakerPanel = trainer1.getCurrentCodebreakerPanel();
+				Result eval = trainer1.makeStep();
+				addLine(playfield, codebreakerPanel, eval);
+				if (trainer1.isNotGameOver()) {
+					resetCodebreakerPanel();
+				} else {
+					if (trainer1.isWon()) {
+						Toast.makeText(getApplicationContext(), getString(R.string.win), Toast.LENGTH_LONG).show();
 					} else {
-						if (trainer.isWon()) {
-							Toast.makeText(getApplicationContext(), getString(R.string.win), Toast.LENGTH_LONG).show();
-						} else {
-							Toast.makeText(getApplicationContext(), getString(R.string.lost), Toast.LENGTH_LONG).show();
-						}
+						Toast.makeText(getApplicationContext(), getString(R.string.lost), Toast.LENGTH_LONG).show();
 					}
 				}
 			}
@@ -285,6 +242,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private void newGame() {
 		((LogicTrainerApplication) getApplicationContext()).resetLogicTrainer();
 		resetCodebreakerPanel();
+		resetColorChooser();
 		final LinearLayout playfield = findViewById(R.id.codebreaker_panels);
 		playfield.removeAllViews();
 		Button checkButton = findViewById(R.id.check_button);
@@ -327,12 +285,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 		// automatically scroll to last element in the scroll view 
 		final ScrollView scrollView = findViewById(R.id.playfield_scrollview);
-		scrollView.post(new Runnable() {
-			@Override
-			public void run() {
-				scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-			}
-		});
+		scrollView.post(() -> scrollView.fullScroll(ScrollView.FOCUS_DOWN));
 	}
 
 	private void setPlayColor(View playChoiceView, PlayColors color) {
@@ -488,5 +441,19 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		} else if ((highestName.equals(ACTION_OPTIONS) && highestScore > 2.0)) {
 			this.startActivity(new Intent(this, OptionsActivity.class));
 		}
+	}
+
+	private void lockColor(ImageView imageView) {
+		ColorMatrix matrix = new ColorMatrix();
+		matrix.setSaturation(.8f);
+
+		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+		imageView.setColorFilter(filter);
+		imageView.setImageAlpha(64);
+	}
+
+	private void unlockColor(ImageView imageView) {
+		imageView.clearColorFilter();
+		imageView.setImageAlpha(255);
 	}
 }
