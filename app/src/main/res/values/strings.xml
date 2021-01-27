@@ -14,4 +14,11 @@
     <string name="win">Congratulations. You win!</string>
     <string name="lost">Sorry. You lost!</string>
     <string name="pick_color">Pick a color</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="yellow">Yellow</string>
+    <string name="orange">Orange</string>
+    <string name="brown">Brown</string>
+    <string name="empty">Empty</string>
 </resources>
