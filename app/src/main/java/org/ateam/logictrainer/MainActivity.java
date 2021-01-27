@@ -1,6 +1,5 @@
 package org.ateam.logictrainer;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.gesture.Prediction;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -80,7 +78,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		};
 	}
 
-	@TargetApi(Build.VERSION_CODES.N)
 	private void initColorChooserPanel() {
 
 		final View colorChooserView = findViewById(R.id.colorchooser);
@@ -124,7 +121,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		setColorChooserListeners(colorChooserView, R.id.color_chooser_empty, listener, longClickListener);
 	}
 
-	@TargetApi(Build.VERSION_CODES.N)
 	private void setColorChooserListeners(View colorChooserView, int colorViewId, OnClickListener onClickListener, View.OnLongClickListener longClickListener) {
 		View view;
 		view = colorChooserView.findViewById(colorViewId);
