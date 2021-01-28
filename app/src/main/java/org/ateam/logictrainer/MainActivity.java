@@ -57,7 +57,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private View codebreakerPanel;
 	private int selectedIndex = -1;
 	private View selectedColorView = null;
-	private Map<PlayColors, Boolean> lockedColors = new HashMap<>();
+	private Map<PlayColors, Boolean> disabledColors = new HashMap<>();
 
 	private GestureLibrary gestureLib;
 
@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		OnClickListener listener = v -> {
 			final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 			PlayColors color = viewIdToColorMap.getOrDefault(v.getId(), null);
-			if (!lockedColors.getOrDefault(color, false)) {
+			if (!disabledColors.getOrDefault(color, false)) {
 				trainer.setPlayerChoice(selectedIndex - 1, color);
 				setPlayColor(selectedColorView, color);
 
@@ -103,12 +103,12 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 			if (color == null) {
 				return true;
 			}
-			if (!lockedColors.getOrDefault(color, false)) {
-				lockedColors.put(color, true);
-				lockColor((ImageView) v);
+			if (!disabledColors.getOrDefault(color, false)) {
+				disabledColors.put(color, true);
+				disableColor((ImageView) v);
 			} else {
-				lockedColors.put(color, false);
-				unlockColor((ImageView)v);
+				disabledColors.put(color, false);
+				enableColor((ImageView)v);
 			}
 			return true;
 		};
@@ -129,10 +129,10 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	}
 
 	private void resetColorChooser() {
-		lockedColors.clear();
+		disabledColors.clear();
 		final View colorChooserView = findViewById(R.id.colorchooser);
 		for (int viewId : viewIdToColorMap.keySet()) {
-			unlockColor((ImageView) colorChooserView.findViewById(viewId));
+			enableColor((ImageView) colorChooserView.findViewById(viewId));
 		}
 	}
 
@@ -443,7 +443,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		}
 	}
 
-	private void lockColor(ImageView imageView) {
+	private void disableColor(ImageView imageView) {
 		ColorMatrix matrix = new ColorMatrix();
 		matrix.setSaturation(.8f);
 
@@ -452,7 +452,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		imageView.setImageAlpha(64);
 	}
 
-	private void unlockColor(ImageView imageView) {
+	private void enableColor(ImageView imageView) {
 		imageView.clearColorFilter();
 		imageView.setImageAlpha(255);
 	}
