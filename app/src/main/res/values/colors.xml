@@ -9,4 +9,5 @@
     <color name="background">#aa4400</color>
     <color name="codemaker_panel">#50ffffff</color>
     <color name="codebreaker_panel">#40ffffff</color>
+    <color name="line_number_background">#20ffffff</color>
 </resources>
