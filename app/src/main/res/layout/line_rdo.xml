@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:paddingTop="4dip"
         android:paddingBottom="4dip"
-        android:paddingStart="10dip">
+        android:paddingStart="0dip">
 
         <TextView
             android:id="@+id/line_number"
