@@ -18,6 +18,9 @@ You have 7 guesses, unless the Option "Unlimited trials" is checked.
     Note: The game supports gestures:
       * Draw an "N" to create a new game.
       * Draw an "O" to show the Options screen.
+      * Draw a horizontal line (swipe) from left to right to clear the code breaker panel.
+      
+> ProTip: If you have ruled out a color by logical deduction, you can disable it by long-pressing the corresponding color in the color chooser. You can re-enable a color by long-pressing a disabled color.
 
 ## Screenshots
 
