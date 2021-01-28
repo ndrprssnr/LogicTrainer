@@ -9,7 +9,7 @@
         android:id="@+id/codemaker_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/codemaker_panel"
+        android:background="@drawable/codemaker_panel_background"
         android:orientation="horizontal" >
     </LinearLayout>
 
@@ -34,7 +34,7 @@
         android:id="@+id/codebreaker_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/codebreaker_panel"
+        android:background="@drawable/codebreaker_panel_background"
         android:orientation="horizontal" >
     </LinearLayout>
 

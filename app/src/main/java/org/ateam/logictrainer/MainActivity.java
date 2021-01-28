@@ -168,7 +168,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		super.onCreate(savedInstanceState);
 
 		GestureOverlayView gestureOverlayView = new GestureOverlayView(this);
-		View inflate = getLayoutInflater().inflate(R.layout.main2, null);
+		View inflate = getLayoutInflater().inflate(R.layout.main, null);
 		gestureOverlayView.addView(inflate);
 		gestureOverlayView.addOnGesturePerformedListener(this);
 		gestureLib = GestureLibraries.fromRawResource(this, R.raw.gestures);
@@ -324,7 +324,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 	private void initCodebreakerPanel(PlayColors[] playerChoice) {
 		LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		codebreakerPanel = inflater.inflate(R.layout.line, null);
+		codebreakerPanel = inflater.inflate(R.layout.codebreaker_panel, null);
 		if (playerChoice != null) {
 			for (int i = 0; i < 4; i++) {
 				if (playerChoice[i] != null) {
