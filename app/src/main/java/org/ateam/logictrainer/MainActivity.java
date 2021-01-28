@@ -217,7 +217,8 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 			if (trainer1.isNotGameOver()) { // check should be unnecessary, but just in case...
 				PlayColors[] codebreakerPanel = trainer1.getCurrentCodebreakerPanel();
 				Result eval = trainer1.makeStep();
-				addLine(playfield, codebreakerPanel, eval);
+				// TODO: Improve handling of round number; makeStep already proceeds to next round, but line number should show current round
+				addLine(playfield, codebreakerPanel, eval, trainer1.getRoundNumber() - 1);
 				if (trainer1.isNotGameOver()) {
 					resetCodebreakerPanel();
 				} else {
@@ -234,7 +235,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		List<Result> evals = trainer.getResults();
 		if (playerPanels.size() == evals.size()) {
 			for (int i = 0; i < playerPanels.size(); i++) {
-				addLine(playfield, playerPanels.get(i), evals.get(i));
+				addLine(playfield, playerPanels.get(i), evals.get(i), i + 1);
 			}
 		}
 	}
@@ -271,9 +272,11 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	}
 
 
-	private void addLine(final LinearLayout playfield, final PlayColors[] playerChoice, final Result eval) {
+	private void addLine(final LinearLayout playfield, final PlayColors[] playerChoice, final Result eval, int round) {
 		LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.line_rdo, null);
+
+		((TextView)view.findViewById(R.id.line_number)).setText("" + round);
 		for (int i = 0; i < 4; i++) {
 			View playChoiceView = view.findViewById(PLAYCHOICE_IDS[i]);
 			PlayColors color = playerChoice[i];

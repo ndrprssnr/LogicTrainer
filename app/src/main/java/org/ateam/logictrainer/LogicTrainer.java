@@ -152,4 +152,8 @@ class LogicTrainer implements Serializable {
 		
 		return result;
 	}
+
+	int getRoundNumber() {
+		return step + 1;
+	}
 }

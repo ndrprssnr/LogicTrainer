@@ -24,6 +24,16 @@
         <item name="android:layout_marginRight">17dip</item>
     </style>
 
+    <style name="line_number" parent="eval_text">
+        <item name="android:shadowColor">#421102</item>
+        <!--<item name="android:shadowColor">#ffffff</item>-->
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">#9A2805</item>
+    </style>
+
     <style name="play_choice_text">
         <item name="android:textSize">20sp</item>
         <item name="android:layout_gravity">center_vertical</item>

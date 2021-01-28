@@ -13,6 +13,11 @@
         android:paddingStart="10dip">
 
         <TextView
+            android:id="@+id/line_number"
+            style="@style/line_number"
+            android:text="0" />
+
+        <TextView
             android:id="@+id/play_choice_textview1"
             style="@style/play_choice_rdo_text" />
 
