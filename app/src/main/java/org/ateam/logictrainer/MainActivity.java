@@ -216,9 +216,9 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 			LogicTrainer trainer1 = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 			if (trainer1.isNotGameOver()) { // check should be unnecessary, but just in case...
 				PlayColors[] codebreakerPanel = trainer1.getCurrentCodebreakerPanel();
+				int round = trainer1.getRoundNumber();
 				Result eval = trainer1.makeStep();
-				// TODO: Improve handling of round number; makeStep already proceeds to next round, but line number should show current round
-				addLine(playfield, codebreakerPanel, eval, trainer1.getRoundNumber() - 1);
+				addLine(playfield, codebreakerPanel, eval, round);
 				if (trainer1.isNotGameOver()) {
 					resetCodebreakerPanel();
 				} else {
