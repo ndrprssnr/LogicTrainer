@@ -24,18 +24,25 @@
         <!--<item name="android:layout_marginRight">17dip</item>-->
     </style>
 
-    <style name="line_number" parent="eval_text">
+    <style name="line_number">
         <item name="android:background">@drawable/line_number_background</item>
-        <item name="android:paddingTop">0dip</item>
-        <item name="android:paddingLeft">12dip</item>
+        <item name="android:layout_height">30dip</item>
+        <item name="android:layout_width">30dip</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
+        <!--<item name="android:paddingTop">0dip</item>
+        <item name="android:paddingLeft">12dip</item>-->
+        <item name="android:paddingBottom">2dip</item>
+        <item name="android:paddingRight">2dip</item>
         <item name="android:shadowColor">#421102</item>
         <!--<item name="android:shadowColor">#ffffff</item>-->
-        <item name="android:shadowDx">1</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">3</item>
-        <item name="android:fontFamily">sans-serif-black</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:textColor">#9A2805</item>
+        <item name="android:layout_marginBottom">1dip</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">4</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#AA4400</item>
     </style>
 
     <style name="play_choice_text">
