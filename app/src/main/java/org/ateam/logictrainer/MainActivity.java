@@ -259,6 +259,10 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 		LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.line_rdo, null);
+		view.findViewById(R.id.line_number).setVisibility(View.INVISIBLE);
+		view.findViewById(R.id.eval_black_textview).setVisibility(View.INVISIBLE);
+		view.findViewById(R.id.eval_white_textview).setVisibility(View.INVISIBLE);
+
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		PlayColors[] target = trainer.getCodemakerPanel();
 		for (int i = 0; i < 4; i++) {
@@ -266,8 +270,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 			PlayColors color = target[i];
 			setPlayColor(playChoiceView, color);
 		}
-		view.findViewById(R.id.eval_black_textview).setVisibility(View.INVISIBLE);
-		view.findViewById(R.id.eval_white_textview).setVisibility(View.INVISIBLE);
 		solutionView.addView(view);
 	}
 
