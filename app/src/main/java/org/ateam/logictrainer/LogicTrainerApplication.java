@@ -1,13 +1,12 @@
 package org.ateam.logictrainer;
 
+import android.app.Application;
+import android.content.Context;
+
 import java.io.EOFException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import android.app.Application;
-import android.content.Context;
 
 public class LogicTrainerApplication extends Application {
 
@@ -40,20 +39,7 @@ public class LogicTrainerApplication extends Application {
 	public Options getOptions() {
 		return options;
 	}
-	
-//	private String playColorsToString(PlayColors[] colors) {
-//		String s = new String();
-//		for (int i = 0; i < colors.length; i++) {
-//			s = colors[i].name() + ((i < colors.length - 1) ? VALUE_SEPARATOR : "");
-//		}
-//		return s;
-//	}
-//	
-//	private String evalToString(Eval eval) {
-//		return "" + eval.black + VALUE_SEPARATOR + eval.white;
-//	}
-	
-	
+
 	public void save() {
 		try {
 //			getExternalFilesDir(null);
