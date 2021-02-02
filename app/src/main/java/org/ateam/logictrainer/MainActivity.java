@@ -229,8 +229,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		Button checkButton = findViewById(R.id.check_button);
 		checkButton.setEnabled(trainer.canCheck());
 		checkButton.setOnClickListener(v -> {
-			Button checkButton1 = findViewById(R.id.check_button);
-			checkButton1.setEnabled(false);
+			checkButton.setEnabled(false);
 			LogicTrainer trainer1 = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 			if (trainer1.isNotGameOver()) { // check should be unnecessary, but just in case...
 				PlayColors[] codebreakerPanel = trainer1.getCurrentCodebreakerPanel();
