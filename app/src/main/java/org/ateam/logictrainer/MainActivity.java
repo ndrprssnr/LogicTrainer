@@ -455,7 +455,10 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 			Toast.makeText(this, getString(R.string.add_new_game), Toast.LENGTH_SHORT).show();
 			newGame();
 		} else if ((highestName.equals(ACTION_LEFT) && highestScore > 15.0)) {
-			resetCodebreakerPanel();
+			LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
+			if (trainer.isNotGameOver()) {
+				resetCodebreakerPanel();
+			}
 		} else if ((highestName.equals(ACTION_OPTIONS) && highestScore > 2.0)) {
 			this.startActivity(new Intent(this, OptionsActivity.class));
 		}
