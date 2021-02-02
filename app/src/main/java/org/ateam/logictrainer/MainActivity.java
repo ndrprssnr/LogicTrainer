@@ -56,7 +56,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 	private View codebreakerPanel;
 	private int selectedIndex = -1;
-	private Map<PlayColors, Boolean> disabledColors = new HashMap<>();
+	private final Map<PlayColors, Boolean> disabledColors = new HashMap<>();
 
 	private GestureLibrary gestureLib;
 
@@ -91,14 +91,14 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 						return;
 					}
 				}
-				trainer.setPlayerChoice(selectedIndex - 1, color);
-				View selectedPlaceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[selectedIndex - 1]);
+				trainer.setPlayerChoice(selectedIndex, color);
+				View selectedPlaceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[selectedIndex]);
 				setPlayColor(selectedPlaceView, color);
 
 				Button checkButton = findViewById(R.id.check_button);
 				checkButton.setEnabled(trainer.canCheck());
 				selectedIndex = findNextEmptyPlaceIndex();
-				if (selectedIndex > 0) {
+				if (selectedIndex > -1) {
 					setCodebreakerButton(selectedIndex, true);
 				}
 //				colorChooserView.setVisibility(View.GONE);
@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		PlayColors[] places = trainer.getCurrentCodebreakerPanel();
 		for (int i = 0; i < places.length && i < PLACE_VIEW_IDS.length; i++) {
 			if (places[i] == null) {
-				return i + 1;
+				return i;
 			}
 		}
 		return -1;
@@ -268,7 +268,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		playfield.removeAllViews();
 		Button checkButton = findViewById(R.id.check_button);
 		checkButton.setEnabled(false);
-		selectedIndex = 1;
+		selectedIndex = 0;
 		setCodebreakerButton(selectedIndex, true);
 		final View colorChooserView = findViewById(R.id.colorchooser);
 		colorChooserView.setVisibility(View.VISIBLE);
@@ -366,17 +366,14 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		LinearLayout codebreakerPanelContainer = findViewById(R.id.codebreaker_panel);
 		codebreakerPanelContainer.addView(codebreakerPanel);
 
-		TextView v1 = codebreakerPanel.findViewById(R.id.play_choice_textview1);
-		v1.setOnClickListener(getListener(1));
-		TextView v2 = codebreakerPanel.findViewById(R.id.play_choice_textview2);
-		v2.setOnClickListener(getListener(2));
-		TextView v3 = codebreakerPanel.findViewById(R.id.play_choice_textview3);
-		v3.setOnClickListener(getListener(3));
-		TextView v4 = codebreakerPanel.findViewById(R.id.play_choice_textview4);
-		v4.setOnClickListener(getListener(4));
+		for (int i= 0; i < PLACE_VIEW_IDS.length; i++) {
+			View view = codebreakerPanel.findViewById(PLACE_VIEW_IDS[i]);
+			view.setOnClickListener(getListener(i));
+
+		}
 
 		selectedIndex = findNextEmptyPlaceIndex();
-		if (selectedIndex > 0) {
+		if (selectedIndex > -1) {
 			setCodebreakerButton(selectedIndex, true);
 		}
 	}
@@ -391,31 +388,17 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		trainer.resetPlayerPanel();
 		Button checkButton = findViewById(R.id.check_button);
 		checkButton.setEnabled(trainer.canCheck());
-		selectedIndex = 1;
+		selectedIndex = 0;
 		setCodebreakerButton(selectedIndex, true);
 	}
 
 	private void setCodebreakerButton(int index, boolean pressed) {
-		TextView view = null;
-		switch (index) {
-			case 1:
-				view = codebreakerPanel.findViewById(R.id.play_choice_textview1);
-				break;
-			case 2:
-				view = codebreakerPanel.findViewById(R.id.play_choice_textview2);
-				break;
-			case 3:
-				view = codebreakerPanel.findViewById(R.id.play_choice_textview3);
-				break;
-			case 4:
-				view = codebreakerPanel.findViewById(R.id.play_choice_textview4);
-				break;
-		}
+		TextView view = codebreakerPanel.findViewById(PLACE_VIEW_IDS[index]);
 
 		int drawable = (pressed) ? R.drawable.empty_circle_pressed : R.drawable.empty_circle;
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
-		if (trainer.getCurrentCodebreakerPanel()[index - 1] != null) {
-			switch (trainer.getCurrentCodebreakerPanel()[index - 1]) {
+		if (trainer.getCurrentCodebreakerPanel()[index] != null) {
+			switch (trainer.getCurrentCodebreakerPanel()[index]) {
 				case Red:
 					drawable = (pressed) ? R.drawable.red_circle_pressed : R.drawable.red_circle;
 					break;
