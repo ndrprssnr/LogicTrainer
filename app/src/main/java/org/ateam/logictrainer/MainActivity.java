@@ -3,7 +3,6 @@ package org.ateam.logictrainer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -34,6 +33,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends Activity implements OnGesturePerformedListener {
 
@@ -317,36 +318,40 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	}
 
 	private void setPlayColor(View playChoiceView, PlayColors color) {
-		Resources res = getResources();
+		Context context = getApplicationContext();
 		Drawable shape = null;
 		if (color != null) {
 			switch (color) {
 				case Red:
-					shape = res.getDrawable(R.drawable.red_circle);
+					shape = getDrawable(context, R.drawable.red_circle);
 					break;
 				case Green:
-					shape = res.getDrawable(R.drawable.green_circle);
+					shape = getDrawable(context, R.drawable.green_circle);
 					break;
 				case Blue:
-					shape = res.getDrawable(R.drawable.blue_circle);
+					shape = getDrawable(context, R.drawable.blue_circle);
 					break;
 				case Yellow:
-					shape = res.getDrawable(R.drawable.yellow_circle);
+					shape = getDrawable(context, R.drawable.yellow_circle);
 					break;
 				case Brown:
-					shape = res.getDrawable(R.drawable.brown_circle);
+					shape = getDrawable(context, R.drawable.brown_circle);
 					break;
 				case Orange:
-					shape = res.getDrawable(R.drawable.orange_circle);
+					shape = getDrawable(context, R.drawable.orange_circle);
 					break;
 			}
 		} else {
-			shape = res.getDrawable(R.drawable.empty_circle);
+			shape = getDrawable(context, R.drawable.empty_circle);
 		}
 
 		if (shape != null) {
 			playChoiceView.setBackground(shape);
 		}
+	}
+
+	private Drawable getDrawable(Context context, int drawableId) {
+		return ContextCompat.getDrawable(context, drawableId);
 	}
 
 
