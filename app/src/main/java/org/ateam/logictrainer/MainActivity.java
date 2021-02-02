@@ -56,7 +56,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 	private View codebreakerPanel;
 	private int selectedIndex = -1;
-	private View selectedColorView = null;
 	private Map<PlayColors, Boolean> disabledColors = new HashMap<>();
 
 	private GestureLibrary gestureLib;
@@ -70,10 +69,9 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 					setCodebreakerButton(selectedIndex, false);
 				}
 				selectedIndex = index;
-				selectedColorView = v;
 				setCodebreakerButton(index, true);
-				final View colorChooserView = findViewById(R.id.colorchooser);
-				colorChooserView.setVisibility(View.VISIBLE);
+//				final View colorChooserView = findViewById(R.id.colorchooser);
+//				colorChooserView.setVisibility(View.VISIBLE);
 			}
 		};
 	}
@@ -81,20 +79,29 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private void initColorChooserPanel() {
 
 		final View colorChooserView = findViewById(R.id.colorchooser);
-		colorChooserView.setVisibility(View.GONE);
+//		colorChooserView.setVisibility(View.GONE);
 
 		OnClickListener listener = v -> {
 			final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 			PlayColors color = viewIdToColorMap.getOrDefault(v.getId(), null);
 			if (!disabledColors.getOrDefault(color, false)) {
+				if (selectedIndex < 0) {
+					selectedIndex = findNextEmptyPlaceIndex();
+					if (selectedIndex < 0) {
+						return;
+					}
+				}
 				trainer.setPlayerChoice(selectedIndex - 1, color);
-				setPlayColor(selectedColorView, color);
+				View selectedPlaceView = codebreakerPanel.findViewById(PLAYCHOICE_IDS[selectedIndex - 1]);
+				setPlayColor(selectedPlaceView, color);
 
 				Button checkButton = findViewById(R.id.check_button);
 				checkButton.setEnabled(trainer.canCheck());
-				selectedIndex = -1;
-				selectedColorView = null;
-				colorChooserView.setVisibility(View.GONE);
+				selectedIndex = findNextEmptyPlaceIndex();
+				if (selectedIndex > 0) {
+					setCodebreakerButton(selectedIndex, true);
+				}
+//				colorChooserView.setVisibility(View.GONE);
 			}
 		};
 
@@ -119,6 +126,17 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		setColorChooserListeners(colorChooserView, R.id.color_chooser_orange, listener, longClickListener);
 		setColorChooserListeners(colorChooserView, R.id.color_chooser_brown, listener, longClickListener);
 		setColorChooserListeners(colorChooserView, R.id.color_chooser_empty, listener, longClickListener);
+	}
+
+	private int findNextEmptyPlaceIndex() {
+		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
+		PlayColors[] places = trainer.getCurrentCodebreakerPanel();
+		for (int i = 0; i < places.length && i < PLAYCHOICE_IDS.length; i++) {
+			if (places[i] == null) {
+				return i + 1;
+			}
+		}
+		return -1;
 	}
 
 	private void setColorChooserListeners(View colorChooserView, int colorViewId, OnClickListener onClickListener, View.OnLongClickListener longClickListener) {
@@ -222,6 +240,8 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 				if (trainer1.isNotGameOver()) {
 					resetCodebreakerPanel();
 				} else {
+					final View colorChooserView = findViewById(R.id.colorchooser);
+					colorChooserView.setVisibility(View.GONE);
 					if (trainer1.isWon()) {
 						Toast.makeText(getApplicationContext(), getString(R.string.win), Toast.LENGTH_LONG).show();
 					} else {
@@ -248,6 +268,10 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		playfield.removeAllViews();
 		Button checkButton = findViewById(R.id.check_button);
 		checkButton.setEnabled(false);
+		selectedIndex = 1;
+		setCodebreakerButton(selectedIndex, true);
+		final View colorChooserView = findViewById(R.id.colorchooser);
+		colorChooserView.setVisibility(View.VISIBLE);
 		LinearLayout solutionView = findViewById(R.id.codemaker_panel);
 		solutionView.removeAllViews();
 	}
@@ -350,23 +374,25 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		v3.setOnClickListener(getListener(3));
 		TextView v4 = codebreakerPanel.findViewById(R.id.play_choice_textview4);
 		v4.setOnClickListener(getListener(4));
+
+		selectedIndex = findNextEmptyPlaceIndex();
+		if (selectedIndex > 0) {
+			setCodebreakerButton(selectedIndex, true);
+		}
 	}
 
 	public void resetCodebreakerPanel() {
-		TextView v1 = codebreakerPanel.findViewById(R.id.play_choice_textview1);
-		v1.setBackgroundResource(R.drawable.empty_circle);
-		TextView v2 = codebreakerPanel.findViewById(R.id.play_choice_textview2);
-		v2.setBackgroundResource(R.drawable.empty_circle);
-		TextView v3 = codebreakerPanel.findViewById(R.id.play_choice_textview3);
-		v3.setBackgroundResource(R.drawable.empty_circle);
-		TextView v4 = codebreakerPanel.findViewById(R.id.play_choice_textview4);
-		v4.setBackgroundResource(R.drawable.empty_circle);
+		for (int viewId : PLAYCHOICE_IDS) {
+			View view = codebreakerPanel.findViewById(viewId);
+			view.setBackgroundResource(R.drawable.empty_circle);
+		}
 
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		trainer.resetPlayerPanel();
 		Button checkButton = findViewById(R.id.check_button);
 		checkButton.setEnabled(trainer.canCheck());
-		selectedIndex = -1;
+		selectedIndex = 1;
+		setCodebreakerButton(selectedIndex, true);
 	}
 
 	private void setCodebreakerButton(int index, boolean pressed) {
