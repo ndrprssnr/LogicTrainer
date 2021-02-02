@@ -41,7 +41,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private static final String ACTION_LEFT = "action_left";
 	private static final String ACTION_OPTIONS = "action_options";
 
-	private static final int[] PLAYCHOICE_IDS = new int[]{R.id.play_choice_textview1, R.id.play_choice_textview2, R.id.play_choice_textview3, R.id.play_choice_textview4};
+	private static final int[] PLACE_VIEW_IDS = new int[]{R.id.play_choice_textview1, R.id.play_choice_textview2, R.id.play_choice_textview3, R.id.play_choice_textview4};
 	private static final Map<Integer, PlayColors> viewIdToColorMap;
 	static {
 		viewIdToColorMap = new HashMap<>();
@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 					}
 				}
 				trainer.setPlayerChoice(selectedIndex - 1, color);
-				View selectedPlaceView = codebreakerPanel.findViewById(PLAYCHOICE_IDS[selectedIndex - 1]);
+				View selectedPlaceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[selectedIndex - 1]);
 				setPlayColor(selectedPlaceView, color);
 
 				Button checkButton = findViewById(R.id.check_button);
@@ -131,7 +131,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private int findNextEmptyPlaceIndex() {
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		PlayColors[] places = trainer.getCurrentCodebreakerPanel();
-		for (int i = 0; i < places.length && i < PLAYCHOICE_IDS.length; i++) {
+		for (int i = 0; i < places.length && i < PLACE_VIEW_IDS.length; i++) {
 			if (places[i] == null) {
 				return i + 1;
 			}
@@ -290,7 +290,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		PlayColors[] target = trainer.getCodemakerPanel();
 		for (int i = 0; i < 4; i++) {
-			View playChoiceView = view.findViewById(PLAYCHOICE_IDS[i]);
+			View playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
 			PlayColors color = target[i];
 			setPlayColor(playChoiceView, color);
 		}
@@ -304,7 +304,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 		((TextView)view.findViewById(R.id.line_number)).setText("" + round);
 		for (int i = 0; i < 4; i++) {
-			View playChoiceView = view.findViewById(PLAYCHOICE_IDS[i]);
+			View playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
 			PlayColors color = playerChoice[i];
 			setPlayColor(playChoiceView, color);
 		}
@@ -357,7 +357,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		if (playerChoice != null) {
 			for (int i = 0; i < 4; i++) {
 				if (playerChoice[i] != null) {
-					View playChoiceView = codebreakerPanel.findViewById(PLAYCHOICE_IDS[i]);
+					View playChoiceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[i]);
 					PlayColors color = playerChoice[i];
 					setPlayColor(playChoiceView, color);
 				}
@@ -382,7 +382,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	}
 
 	public void resetCodebreakerPanel() {
-		for (int viewId : PLAYCHOICE_IDS) {
+		for (int viewId : PLACE_VIEW_IDS) {
 			View view = codebreakerPanel.findViewById(viewId);
 			view.setBackgroundResource(R.drawable.empty_circle);
 		}
