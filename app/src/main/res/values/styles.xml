@@ -66,6 +66,15 @@
         <item name="android:layout_width">40dip</item>
     </style>
 
+    <style name="play_choice_rdo_text_land">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#ffffff</item>
+
+        <item name="android:layout_height">40dip</item>
+        <item name="android:layout_width">40dip</item>
+    </style>
+
     <style name="color_chooser_dialog_item">
         <item name="android:height">56dip</item>
         <item name="android:width">56dip</item>
