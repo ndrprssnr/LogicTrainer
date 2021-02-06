@@ -62,6 +62,86 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private GestureLibrary gestureLib;
 
 
+	/**
+	 * Called when the activity is first created.
+	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		GestureOverlayView gestureOverlayView = new GestureOverlayView(this);
+		View inflate = getLayoutInflater().inflate(R.layout.main, null);
+		gestureOverlayView.addView(inflate);
+		gestureOverlayView.addOnGesturePerformedListener(this);
+		gestureLib = GestureLibraries.fromRawResource(this, R.raw.gestures);
+		if (!gestureLib.load()) {
+			finish();
+		}
+		setContentView(gestureOverlayView);
+		init();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		((LogicTrainerApplication) getApplicationContext()).save();
+	}
+
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		((LogicTrainerApplication) getApplicationContext()).load();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.new_game:
+				newGame();
+				return true;
+			case R.id.show_solution:
+				showSolution();
+				return true;
+			case R.id.options:
+				this.startActivity(new Intent(this, OptionsActivity.class));
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
+		ArrayList<Prediction> predictions = gestureLib.recognize(gesture);
+		String highestName = "";
+		double highestScore = 0.0;
+		for (Prediction prediction : predictions) {
+			if (prediction.score > highestScore) {
+				highestName = prediction.name;
+				highestScore = prediction.score;
+			}
+		}
+		if ((highestName.equals(ACTION_NEW) && highestScore > 2.0)) {
+			Toast.makeText(this, getString(R.string.add_new_game), Toast.LENGTH_SHORT).show();
+			newGame();
+		} else if ((highestName.equals(ACTION_LEFT) && highestScore > 15.0)) {
+			LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
+			if (trainer.isNotGameOver()) {
+				resetCodebreakerPanel();
+			}
+		} else if ((highestName.equals(ACTION_OPTIONS) && highestScore > 2.0)) {
+			this.startActivity(new Intent(this, OptionsActivity.class));
+		}
+	}
+
 	private OnClickListener getListener(final int index) {
 		return v -> {
 			final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
@@ -71,8 +151,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 				}
 				selectedIndex = index;
 				setCodebreakerButton(index, true);
-//				final View colorChooserView = findViewById(R.id.colorchooser);
-//				colorChooserView.setVisibility(View.VISIBLE);
 			}
 		};
 	}
@@ -80,7 +158,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private void initColorChooserPanel() {
 
 		final View colorChooserView = findViewById(R.id.colorchooser);
-//		colorChooserView.setVisibility(View.GONE);
 
 		OnClickListener listener = v -> {
 			final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
@@ -102,7 +179,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 				if (selectedIndex > -1) {
 					setCodebreakerButton(selectedIndex, true);
 				}
-//				colorChooserView.setVisibility(View.GONE);
 			}
 		};
 
@@ -154,70 +230,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 			enableColor((ImageView) colorChooserView.findViewById(viewId));
 		}
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.context_menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.new_game:
-				newGame();
-				return true;
-			case R.id.show_solution:
-				showSolution();
-				return true;
-			case R.id.options:
-				this.startActivity(new Intent(this, OptionsActivity.class));
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
-
-	/**
-	 * Called when the activity is first created.
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		GestureOverlayView gestureOverlayView = new GestureOverlayView(this);
-		View inflate = getLayoutInflater().inflate(R.layout.main, null);
-		gestureOverlayView.addView(inflate);
-		gestureOverlayView.addOnGesturePerformedListener(this);
-		gestureLib = GestureLibraries.fromRawResource(this, R.raw.gestures);
-		if (!gestureLib.load()) {
-			finish();
-		}
-		setContentView(gestureOverlayView);
-		init();
-	}
-
-
-	//	@Override
-	//	public void onBackPressed() {
-	//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	//		builder.setMessage("Are you sure you want to exit?")
-	//		       .setCancelable(false)
-	//		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-	//		           public void onClick(DialogInterface dialog, int id) {
-	//		                MainActivity.this.finish();
-	//		           }
-	//		       })
-	//		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
-	//		           public void onClick(DialogInterface dialog, int id) {
-	//		                dialog.cancel();
-	//		           }
-	//		       });
-	//		AlertDialog alert = builder.create();
-	//		alert.show();
-	//	}
-
 
 	public void init() {
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
@@ -426,43 +438,6 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		view.setBackgroundResource(drawable);
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		((LogicTrainerApplication) getApplicationContext()).save();
-	}
-
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		((LogicTrainerApplication) getApplicationContext()).load();
-	}
-
-
-	@Override
-	public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
-		ArrayList<Prediction> predictions = gestureLib.recognize(gesture);
-		String highestName = "";
-		double highestScore = 0.0;
-		for (Prediction prediction : predictions) {
-			if (prediction.score > highestScore) {
-				highestName = prediction.name;
-				highestScore = prediction.score;
-			}
-		}
-		if ((highestName.equals(ACTION_NEW) && highestScore > 2.0)) {
-			Toast.makeText(this, getString(R.string.add_new_game), Toast.LENGTH_SHORT).show();
-			newGame();
-		} else if ((highestName.equals(ACTION_LEFT) && highestScore > 15.0)) {
-			LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
-			if (trainer.isNotGameOver()) {
-				resetCodebreakerPanel();
-			}
-		} else if ((highestName.equals(ACTION_OPTIONS) && highestScore > 2.0)) {
-			this.startActivity(new Intent(this, OptionsActivity.class));
-		}
-	}
 
 	private void disableColor(ImageView imageView) {
 		ColorMatrix matrix = new ColorMatrix();
