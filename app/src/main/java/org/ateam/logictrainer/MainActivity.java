@@ -158,6 +158,12 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private void initColorChooserPanel() {
 
 		final View colorChooserView = findViewById(R.id.colorchooser);
+		final LogicTrainer trainer1 = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
+		if (trainer1.isNotGameOver()) {
+			colorChooserView.setVisibility(View.VISIBLE);
+		} else {
+			colorChooserView.setVisibility(View.GONE);
+		}
 
 		OnClickListener listener = v -> {
 			final LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
