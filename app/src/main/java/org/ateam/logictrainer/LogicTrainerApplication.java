@@ -19,7 +19,7 @@ public class LogicTrainerApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		
-		((LogicTrainerApplication)getApplicationContext()).load();
+		load();
 		if (logicTrainer == null) {
 			options = new Options();
 			logicTrainer = new LogicTrainer(options);
