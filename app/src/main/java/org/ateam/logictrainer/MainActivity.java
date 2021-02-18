@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private static final String ACTION_LEFT = "action_left";
 	private static final String ACTION_OPTIONS = "action_options";
 
-	private static final int[] PLACE_VIEW_IDS = new int[]{R.id.play_choice_textview1, R.id.play_choice_textview2, R.id.play_choice_textview3, R.id.play_choice_textview4};
+	private static final int[] PLACE_VIEW_IDS = new int[]{R.id.codebreaker_panel_place0, R.id.codebreaker_panel_place1, R.id.codebreaker_panel_place2, R.id.codebreaker_panel_place3};
 	private static final Map<Integer, PlayColors> viewIdToColorMap;
 	static {
 		viewIdToColorMap = new HashMap<>();

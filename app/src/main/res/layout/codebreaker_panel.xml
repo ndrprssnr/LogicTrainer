@@ -13,24 +13,24 @@
         android:paddingStart="10dip">
 
         <TextView
-            android:id="@+id/play_choice_textview1"
+            android:id="@+id/codebreaker_panel_place0"
             style="@style/play_choice_text"
             android:clickable="true"
             android:focusable="true">
         </TextView>
 
         <TextView
-            android:id="@+id/play_choice_textview2"
+            android:id="@+id/codebreaker_panel_place1"
             style="@style/play_choice_text" >
         </TextView>
 
         <TextView
-            android:id="@+id/play_choice_textview3"
+            android:id="@+id/codebreaker_panel_place2"
             style="@style/play_choice_text" >
         </TextView>
 
         <TextView
-            android:id="@+id/play_choice_textview4"
+            android:id="@+id/codebreaker_panel_place3"
             style="@style/play_choice_text" >
         </TextView>
 

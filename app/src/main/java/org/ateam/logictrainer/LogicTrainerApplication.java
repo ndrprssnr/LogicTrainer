@@ -31,6 +31,9 @@ public class LogicTrainerApplication extends Application {
 	public LogicTrainer getLogicTrainer() {
 		return logicTrainer;
 	}
+	public void setLogicTrainer(LogicTrainer logicTrainer) {
+		this.logicTrainer = logicTrainer;
+	}
 	
 	public void resetLogicTrainer() {
 		logicTrainer = new LogicTrainer(options);
