@@ -75,14 +75,31 @@ public class LogicTrainerTest {
 	}
 
 	@Test
-	public void testCreateLogicTrainerWithValidCodeMakerPanel() {
+	public void testCreateLogicTrainerWithValidCodemakerPanel() {
 		LogicTrainer.PlayColors[] codemakerPanel = new LogicTrainer.PlayColors[4];
 		Arrays.fill(codemakerPanel, LogicTrainer.PlayColors.Red);
 		Options options = new Options();
+
 		LogicTrainer trainer = new LogicTrainer(options, codemakerPanel);
+
 		assertEquals(options, trainer.getOptions());
 		assertArrayEquals(codemakerPanel, trainer.getCodemakerPanel());
 		assertArrayEquals(new LogicTrainer.PlayColors[]{ null, null, null, null }, trainer.getCurrentCodebreakerPanel());
 	}
 
+	@Test(expected = RuntimeException.class)
+	public void testCreateLogicTrainerWithTooSmallCodemakerPanel() {
+		LogicTrainer.PlayColors[] codemakerPanel = new LogicTrainer.PlayColors[3];
+		Arrays.fill(codemakerPanel, LogicTrainer.PlayColors.Red);
+
+		new LogicTrainer(new Options(), codemakerPanel);
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testCreateLogicTrainerWithTooLargeCodemakerPanel() {
+		LogicTrainer.PlayColors[] codemakerPanel = new LogicTrainer.PlayColors[5];
+		Arrays.fill(codemakerPanel, LogicTrainer.PlayColors.Red);
+
+		new LogicTrainer(new Options(), codemakerPanel);
+	}
 }

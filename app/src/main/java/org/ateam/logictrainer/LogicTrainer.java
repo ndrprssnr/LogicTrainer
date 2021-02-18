@@ -74,7 +74,9 @@ class LogicTrainer implements Serializable {
 	}
 
 	LogicTrainer(Options options, PlayColors[] codemakerPanel) {
-//		if (codemakerPanel.length)
+		if (codemakerPanel.length != 4) {
+			throw new RuntimeException("Invalid codemaker panel size.");
+		}
 		this.options = options;
 		this.codemakerPanel = codemakerPanel;
 	}
