@@ -151,12 +151,12 @@ class LogicTrainer implements Serializable {
 		Result result = check();
 		codebreakerPanels.add(currentCodebreakerPanel);
 		results.add(result);
-		currentCodebreakerPanel = new PlayColors[4];
 		if (result.black == 4) {
 			won = true;
 			gameOver = true;
 		} else if (options.isUnlimitedTrials() || step < Options.MAX_STEP - 1) {
 			step++;
+			currentCodebreakerPanel = new PlayColors[4];
 		} else {
 			gameOver = true;
 		}
