@@ -27,6 +27,9 @@ class LogicTrainer implements Serializable {
 
 	private transient Options options;
 
+	public Options getOptions() {
+		return options;
+	}
 	void setOptions(Options options) {
 		this.options = options;
 	}
@@ -69,7 +72,15 @@ class LogicTrainer implements Serializable {
 		initTargetPanel();
 		resetPlayerPanel();
 	}
-	
+
+	LogicTrainer(Options options, PlayColors[] codemakerPanel) {
+		if (codemakerPanel.length != 4) {
+			throw new RuntimeException("Invalid codemaker panel size.");
+		}
+		this.options = options;
+		this.codemakerPanel = codemakerPanel;
+	}
+
 	private void initTargetPanel() {
 		List<PlayColors> playColors = Arrays.asList(PlayColors.values());
 		if (options.isCodemakerDuplicateColorsAllowed()) {
