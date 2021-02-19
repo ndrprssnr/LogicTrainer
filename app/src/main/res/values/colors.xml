@@ -7,7 +7,7 @@
     <color name="brown">#552200</color>
     <color name="orange">#ff6600</color>
     <color name="background">#aa4400</color>
-    <color name="codemaker_panel">#50ffffff</color>
-    <color name="codebreaker_panel">#40ffffff</color>
+    <color name="codemaker_panel">#30ffffff</color>
+    <color name="codebreaker_panel">#30ffffff</color>
     <color name="line_number_background">#30ffffff</color>
 </resources>
