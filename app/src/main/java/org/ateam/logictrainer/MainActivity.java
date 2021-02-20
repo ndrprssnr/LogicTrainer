@@ -59,6 +59,8 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	private int selectedIndex = -1;
 	private final Map<PlayColors, Boolean> disabledColors = new HashMap<>();
 
+	private View activeCodebreakerLine;
+
 	private GestureLibrary gestureLib;
 
 
@@ -178,6 +180,8 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 				trainer.setPlayerChoice(selectedIndex, color);
 				View selectedPlaceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[selectedIndex]);
 				setPlayColor(selectedPlaceView, color);
+				View activeLinePlaceView = activeCodebreakerLine.findViewById(PLACE_VIEW_IDS[selectedIndex]);
+				setPlayColor(activeLinePlaceView, color);
 
 				Button checkButton = findViewById(R.id.check_button);
 				checkButton.setEnabled(trainer.canCheck());
@@ -242,6 +246,11 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 		final LinearLayout playfield = findViewById(R.id.codebreaker_panels);
 
+		activeCodebreakerLine = getNewLine();
+		activeCodebreakerLine.findViewById(R.id.result_view).setVisibility(View.INVISIBLE);
+		((TextView)activeCodebreakerLine.findViewById(R.id.line_number)).setText(String.format("%d", trainer.getRoundNumber()));
+		playfield.addView(activeCodebreakerLine);
+
 		initCodebreakerPanel(trainer.getCurrentCodebreakerPanel());
 		initColorChooserPanel();
 
@@ -278,6 +287,11 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		}
 	}
 
+	private View getNewLine() {
+		LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.line_rdo, null);
+	}
+
 	private void newGame() {
 		((LogicTrainerApplication) getApplicationContext()).resetLogicTrainer();
 		resetCodebreakerPanel();
@@ -302,8 +316,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.line_rdo, null);
 		view.findViewById(R.id.line_number).setVisibility(View.INVISIBLE);
-		view.findViewById(R.id.eval_black_textview).setVisibility(View.INVISIBLE);
-		view.findViewById(R.id.eval_white_textview).setVisibility(View.INVISIBLE);
+		view.findViewById(R.id.result_view).setVisibility(View.INVISIBLE);
 
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		PlayColors[] target = trainer.getCodemakerPanel();
@@ -317,17 +330,19 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 
 	private void addLine(final LinearLayout playfield, final PlayColors[] playerChoice, final Result eval, int round) {
-		LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.line_rdo, null);
+		activeCodebreakerLine.findViewById(R.id.result_view).setVisibility(View.VISIBLE);
+		((TextView) activeCodebreakerLine.findViewById(R.id.eval_black_textview)).setText(String.format("%s", eval.black));
+		((TextView) activeCodebreakerLine.findViewById(R.id.eval_white_textview)).setText(String.format("%s", eval.white));
 
-		((TextView)view.findViewById(R.id.line_number)).setText("" + round);
-		for (int i = 0; i < 4; i++) {
-			View playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
-			PlayColors color = playerChoice[i];
-			setPlayColor(playChoiceView, color);
-		}
-		((TextView) view.findViewById(R.id.eval_black_textview)).setText(String.format("%s", eval.black));
-		((TextView) view.findViewById(R.id.eval_white_textview)).setText(String.format("%s", eval.white));
+		View view = getNewLine();
+//		view.findViewById(R.id.result_view).setVisibility();
+
+		((TextView)view.findViewById(R.id.line_number)).setText(String.format("%d", round));
+//		for (int i = 0; i < 4; i++) {
+//			View playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
+//			PlayColors color = playerChoice[i];
+//			setPlayColor(playChoiceView, color);
+//		}
 		playfield.addView(view);
 
 		// automatically scroll to last element in the scroll view 

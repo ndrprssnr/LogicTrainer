@@ -1,47 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/codebreaker_panel_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="10dip"
+    android:paddingTop="10dip"
+    android:paddingBottom="10dip">
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip"
-        android:paddingStart="10dip">
+    <TextView
+        android:id="@+id/codebreaker_panel_place0"
+        style="@style/play_choice_text"
+        android:clickable="true"
+        android:focusable="true" />
 
-        <TextView
-            android:id="@+id/codebreaker_panel_place0"
-            style="@style/play_choice_text"
-            android:clickable="true"
-            android:focusable="true">
-        </TextView>
+    <TextView
+        android:id="@+id/codebreaker_panel_place1"
+        style="@style/play_choice_text" />
 
-        <TextView
-            android:id="@+id/codebreaker_panel_place1"
-            style="@style/play_choice_text" >
-        </TextView>
+    <TextView
+        android:id="@+id/codebreaker_panel_place2"
+        style="@style/play_choice_text" />
 
-        <TextView
-            android:id="@+id/codebreaker_panel_place2"
-            style="@style/play_choice_text" >
-        </TextView>
+    <TextView
+        android:id="@+id/codebreaker_panel_place3"
+        style="@style/play_choice_text" />
 
-        <TextView
-            android:id="@+id/codebreaker_panel_place3"
-            style="@style/play_choice_text" >
-        </TextView>
-
-        <Button
-            android:id="@+id/check_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="15dip"
-            android:text="@string/check" />
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/check_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="15dip"
+        android:text="@string/check" />
 
 </LinearLayout>

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 
-class LogicTrainer implements Serializable {
+public class LogicTrainer implements Serializable {
 
 	/**
 	 * 
@@ -19,10 +19,15 @@ class LogicTrainer implements Serializable {
 		Red, Green, Blue, Orange, Yellow, Brown,
 	}
 	
-	class Result implements Serializable {
+	public static class Result implements Serializable {
 		private static final long serialVersionUID = -3089720496979911502L;
 		byte black = 0;
 		byte white = 0;
+
+		public Result(byte black, byte white) {
+			this.black = black;
+			this.white = white;
+		}
 	}
 
 	private transient Options options;
@@ -118,18 +123,19 @@ class LogicTrainer implements Serializable {
 	}
 	
 	private Result check() {
-		Result result = new Result();
+		byte black = 0;
+		byte white = 0;
 		boolean[] matchedIndices = new boolean[4];
 		Arrays.fill(matchedIndices, false);
 		// find all black matches first
 		for (int i = 0; i < 4; i++) {
 			if (codemakerPanel[i].equals(currentCodebreakerPanel[i])) {
-				result.black++;
+				black++;
 				matchedIndices[i] = true;
 			}
 		}
 		//then, if necessary, find white matches
-		if (result.black < 4) {
+		if (black < 4) {
 			for (int j = 0; j < 4; j++) {
 				// skip black matches
 				if (codemakerPanel[j].equals(currentCodebreakerPanel[j])) continue;
@@ -137,17 +143,17 @@ class LogicTrainer implements Serializable {
 					// skip already matched indices
 					if (matchedIndices[i]) continue;
 					if (j != i && codemakerPanel[i].equals(currentCodebreakerPanel[j])) {
-						result.white++;
+						white++;
 						matchedIndices[i] = true;
 						break;
 					}
 				}
 			}
 		}
-		return result;
+		return new Result(black, white);
 	}
 	
-	Result makeStep() {
+	public Result makeStep() {
 		Result result = check();
 		codebreakerPanels.add(currentCodebreakerPanel);
 		results.add(result);
