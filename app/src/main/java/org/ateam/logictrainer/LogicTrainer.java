@@ -113,7 +113,7 @@ public class LogicTrainer implements Serializable {
 		}
 	}
 	
-	boolean canCheck() {
+	public boolean canCheck() {
 		for (PlayColors color : currentCodebreakerPanel) {
 			if (color == null) {
 				return false;

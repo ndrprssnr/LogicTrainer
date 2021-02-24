@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewAssertion;
-import androidx.test.espresso.matcher.HasBackgroundMatcher;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -20,6 +19,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasBackground;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -131,9 +131,8 @@ public class MainActivityTest {
 	}
 
 	@Test
-	public void testLineShowsResultAndNewActiveLine() {
+	public void testLineShowsResult() {
 		doReturn(new LogicTrainer.Result((byte)2, (byte)1)).when(mockTrainer).makeStep();
-
 
 		onView(withViewInLineWithIndex(R.id.result_view, 0)).check(matches(not(isDisplayed())));
 
@@ -148,8 +147,43 @@ public class MainActivityTest {
 		onView(withViewInLineWithIndex(R.id.eval_white_textview, 0)).check(matches(withText("1")));
 	}
 
+	@Test
+	public void testNewLineAfterCheck() {
+		doReturn(true).when(mockTrainer).canCheck();
+		mainActivityRule.getScenario().onActivity(MainActivity::resetCodebreakerPanel);
+		onView(withId(R.id.check_button)).perform(click());
+		onView(withViewInLineWithIndex(R.id.line_number, 1)).check(matches(withText("2")));
+		onView(withViewInLineWithIndex(R.id.result_view, 1)).check(matches(not(isDisplayed())));
+	}
+
+	@Test
+	public void testActiveLineAfterCheckShowsSelectedColors() {
+		doReturn(true).when(mockTrainer).canCheck();
+		mainActivityRule.getScenario().onActivity(MainActivity::resetCodebreakerPanel);
+		onView(withId(R.id.check_button)).perform(click());
+
+		int index = getActiveLineIndex(mainActivityRule.getScenario());
+		onView(withId(R.id.color_chooser_red)).perform(click());
+		onView(withViewInLineWithIndex(R.id.codebreaker_panel_place0, index)).check(matchesRedCircle);
+		onView(withId(R.id.color_chooser_green)).perform(click());
+		onView(withViewInLineWithIndex(R.id.codebreaker_panel_place1, index)).check(matchesGreenCircle);
+		onView(withId(R.id.color_chooser_blue)).perform(click());
+		onView(withViewInLineWithIndex(R.id.codebreaker_panel_place2, index)).check(matchesBlueCircle);
+		onView(withId(R.id.color_chooser_yellow)).perform(click());
+		onView(withViewInLineWithIndex(R.id.codebreaker_panel_place3, index)).check(matchesYellowCircle);
+	}
+
+	@Test
+	public void testEmptyBackgroundForUnselectedColorInActiveLine() {
+		onView(withId(R.id.color_chooser_red)).perform(click());
+		onView(withPanelPlace(R.id.codebreaker_panel_place0)).perform(click());
+		onView(withId(R.id.color_chooser_empty)).perform(click());
+		// TODO: uncomment and make sure, the active line does not show empty circle icon as background
+//		onView(withViewInLineWithIndex(R.id.codebreaker_panel_place0, 0)).check(matches(not(hasBackground(R.drawable.empty_circle))));
+	}
+
 	private static ViewAssertion matchesBackground(int drawableId) {
-		return matches(new HasBackgroundMatcher(drawableId));
+		return matches(hasBackground(drawableId));
 	}
 
 	private static Matcher<View> withPanelPlace(int id) {

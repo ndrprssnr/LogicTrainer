@@ -261,8 +261,8 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 			LogicTrainer trainer1 = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 			if (trainer1.isNotGameOver()) { // check should be unnecessary, but just in case...
 				PlayColors[] codebreakerPanel = trainer1.getCurrentCodebreakerPanel();
-				int round = trainer1.getRoundNumber();
 				Result eval = trainer1.makeStep();
+				int round = trainer1.getRoundNumber();
 				addLine(playfield, codebreakerPanel, eval, round);
 				if (trainer1.isNotGameOver()) {
 					resetCodebreakerPanel();
@@ -334,16 +334,16 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		((TextView) activeCodebreakerLine.findViewById(R.id.eval_black_textview)).setText(String.format("%s", eval.black));
 		((TextView) activeCodebreakerLine.findViewById(R.id.eval_white_textview)).setText(String.format("%s", eval.white));
 
-		View view = getNewLine();
-//		view.findViewById(R.id.result_view).setVisibility();
+		activeCodebreakerLine = getNewLine();
+		activeCodebreakerLine.findViewById(R.id.result_view).setVisibility(View.INVISIBLE);
 
-		((TextView)view.findViewById(R.id.line_number)).setText(String.format("%d", round));
+		((TextView)activeCodebreakerLine.findViewById(R.id.line_number)).setText(String.format("%d", round));
 //		for (int i = 0; i < 4; i++) {
 //			View playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
 //			PlayColors color = playerChoice[i];
 //			setPlayColor(playChoiceView, color);
 //		}
-		playfield.addView(view);
+		playfield.addView(activeCodebreakerLine);
 
 		// automatically scroll to last element in the scroll view 
 		final ScrollView scrollView = findViewById(R.id.playfield_scrollview);
@@ -424,7 +424,8 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		trainer.resetPlayerPanel();
 		Button checkButton = findViewById(R.id.check_button);
-		checkButton.setEnabled(trainer.canCheck());
+		boolean checkButtonEnabled = trainer.canCheck();
+		checkButton.setEnabled(checkButtonEnabled);
 		selectedIndex = 0;
 		setCodebreakerButton(selectedIndex, true);
 	}
