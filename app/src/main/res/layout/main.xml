@@ -28,8 +28,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <include android:id="@+id/colorchooser" layout="@layout/color_chooser"/>
-
     <LinearLayout
         android:id="@+id/codebreaker_panel"
         android:layout_width="match_parent"
@@ -37,5 +35,7 @@
         android:background="@drawable/codebreaker_panel_background"
         android:orientation="horizontal" >
     </LinearLayout>
+
+    <include android:id="@+id/colorchooser" layout="@layout/color_chooser"/>
 
 </LinearLayout>
