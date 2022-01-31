@@ -3,6 +3,7 @@ package org.ateam.logictrainer;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.hamcrest.Description;
 import org.junit.Before;
@@ -38,38 +39,38 @@ public class MainActivityTest {
 	@Rule
 	public ActivityScenarioRule<MainActivity> mainActivityRule = new ActivityScenarioRule<>(MainActivity.class);
 
-	private final ViewAssertion matchesEmptyCircle = matchesBackground(R.drawable.empty_circle);
-	private final ViewAssertion matchesEmptyCirclePressed = matchesBackground(R.drawable.empty_circle_pressed);
-	private final ViewAssertion matchesRedCircle = matchesBackground(R.drawable.red_circle);
-	private final ViewAssertion matchesRedCirclePressed = matchesBackground(R.drawable.red_circle_pressed);
-	private final ViewAssertion matchesGreenCircle = matchesBackground(R.drawable.green_circle);
-	private final ViewAssertion matchesGreenCirclePressed = matchesBackground(R.drawable.green_circle_pressed);
-	private final ViewAssertion matchesBlueCircle = matchesBackground(R.drawable.blue_circle);
-	private final ViewAssertion matchesBlueCirclePressed = matchesBackground(R.drawable.blue_circle_pressed);
-	private final ViewAssertion matchesYellowCircle = matchesBackground(R.drawable.yellow_circle);
-	private final ViewAssertion matchesYellowCirclePressed = matchesBackground(R.drawable.yellow_circle_pressed);
-	private final ViewAssertion matchesOrangeCircle = matchesBackground(R.drawable.orange_circle);
-	private final ViewAssertion matchesOrangeCirclePressed = matchesBackground(R.drawable.orange_circle_pressed);
-	private final ViewAssertion matchesBrownCircle = matchesBackground(R.drawable.brown_circle);
-	private final ViewAssertion matchesBrownCirclePressed = matchesBackground(R.drawable.brown_circle_pressed);
+	private final ViewAssertion matchesEmptyCircle = matchesViewWithSrc(R.drawable.empty_circle);
+	private final ViewAssertion matchesEmptyCirclePressed = matchesViewWithSrc(R.drawable.empty_circle_pressed);
+	private final ViewAssertion matchesRedCircle = matchesViewWithSrc(R.drawable.red_circle);
+	private final ViewAssertion matchesRedCirclePressed = matchesViewWithSrc(R.drawable.red_circle_pressed);
+	private final ViewAssertion matchesGreenCircle = matchesViewWithSrc(R.drawable.green_circle);
+	private final ViewAssertion matchesGreenCirclePressed = matchesViewWithSrc(R.drawable.green_circle_pressed);
+	private final ViewAssertion matchesBlueCircle = matchesViewWithSrc(R.drawable.blue_circle);
+	private final ViewAssertion matchesBlueCirclePressed = matchesViewWithSrc(R.drawable.blue_circle_pressed);
+	private final ViewAssertion matchesYellowCircle = matchesViewWithSrc(R.drawable.yellow_circle);
+	private final ViewAssertion matchesYellowCirclePressed = matchesViewWithSrc(R.drawable.yellow_circle_pressed);
+	private final ViewAssertion matchesOrangeCircle = matchesViewWithSrc(R.drawable.orange_circle);
+	private final ViewAssertion matchesOrangeCirclePressed = matchesViewWithSrc(R.drawable.orange_circle_pressed);
+	private final ViewAssertion matchesBrownCircle = matchesViewWithSrc(R.drawable.brown_circle);
+	private final ViewAssertion matchesBrownCirclePressed = matchesViewWithSrc(R.drawable.brown_circle_pressed);
 
-	private class BackgroundMatcher extends BoundedMatcher<View, View> {
+	private class ImageViewSrcMatcher extends BoundedMatcher<View, ImageView> {
 		int drawableID;
 
-		public BackgroundMatcher(int drawableID) {
-			super(View.class);
+		public ImageViewSrcMatcher(int drawableID) {
+			super(ImageView.class);
 			this.drawableID = drawableID;
 		}
 
 		@Override
 		public void describeTo(Description description) {
-			description.appendText("has background with drawable " + drawableID);
+			description.appendText("has image with drawable " + drawableID);
 		}
 
 		@Override
-		protected boolean matchesSafely(View item) {
+		protected boolean matchesSafely(ImageView item) {
 				BitmapDrawable expected = (BitmapDrawable) ContextCompat.getDrawable(getApplicationContext(), drawableID);
-				BitmapDrawable back = (BitmapDrawable) item.getBackground();
+				BitmapDrawable back = (BitmapDrawable) item.getDrawable();
 
 			assert expected != null;
 			return ((BitmapDrawable) expected).getBitmap().sameAs(back.getBitmap());
@@ -77,10 +78,8 @@ public class MainActivityTest {
 
 	}
 
-	private ViewAssertion matchesBackground(int drawableId) {
-		// need to use our own matcher, since neither androidx.test.espresso.matcher.HasBackgroundMatcher
-		// nor androidx.test.espresso.matcher.ViewMatchers.hasBackground did work
-		return matches(new BackgroundMatcher(drawableId));
+	private ViewAssertion matchesViewWithSrc(int drawableId) {
+		return matches(new ImageViewSrcMatcher(drawableId));
 	}
 
 	@Before

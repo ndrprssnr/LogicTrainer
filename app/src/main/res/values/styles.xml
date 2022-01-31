@@ -53,7 +53,7 @@
         <item name="android:layout_marginLeft">3dip</item>
         <item name="android:layout_height">52dip</item>
         <item name="android:layout_width">52dip</item>
-        <item name="android:background">@drawable/empty_circle</item>
+        <item name="android:src">@drawable/empty_circle</item>
     </style>
 
     <style name="play_choice_rdo_text">

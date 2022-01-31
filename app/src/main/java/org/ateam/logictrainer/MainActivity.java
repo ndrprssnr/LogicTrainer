@@ -176,7 +176,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 					}
 				}
 				trainer.setPlayerChoice(selectedIndex, color);
-				View selectedPlaceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[selectedIndex]);
+				ImageView selectedPlaceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[selectedIndex]);
 				setPlayColor(selectedPlaceView, color);
 
 				Button checkButton = findViewById(R.id.check_button);
@@ -308,7 +308,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
 		PlayColors[] target = trainer.getCodemakerPanel();
 		for (int i = 0; i < 4; i++) {
-			View playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
+			ImageView playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
 			PlayColors color = target[i];
 			setPlayColor(playChoiceView, color);
 		}
@@ -322,7 +322,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 		((TextView)view.findViewById(R.id.line_number)).setText("" + round);
 		for (int i = 0; i < 4; i++) {
-			View playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
+			ImageView playChoiceView = view.findViewById(PLACE_VIEW_IDS[i]);
 			PlayColors color = playerChoice[i];
 			setPlayColor(playChoiceView, color);
 		}
@@ -335,7 +335,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		scrollView.post(() -> scrollView.fullScroll(ScrollView.FOCUS_DOWN));
 	}
 
-	private void setPlayColor(View playChoiceView, PlayColors color) {
+	private void setPlayColor(ImageView playChoiceView, PlayColors color) {
 		Context context = getApplicationContext();
 		Drawable shape = null;
 		if (color != null) {
@@ -364,7 +364,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		}
 
 		if (shape != null) {
-			playChoiceView.setBackground(shape);
+			playChoiceView.setImageDrawable(shape);
 		}
 	}
 
@@ -379,7 +379,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 		if (playerChoice != null) {
 			for (int i = 0; i < 4; i++) {
 				if (playerChoice[i] != null) {
-					View playChoiceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[i]);
+					ImageView playChoiceView = codebreakerPanel.findViewById(PLACE_VIEW_IDS[i]);
 					PlayColors color = playerChoice[i];
 					setPlayColor(playChoiceView, color);
 				}
@@ -402,8 +402,8 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 
 	public void resetCodebreakerPanel() {
 		for (int viewId : PLACE_VIEW_IDS) {
-			View view = codebreakerPanel.findViewById(viewId);
-			view.setBackgroundResource(R.drawable.empty_circle);
+			ImageView view = codebreakerPanel.findViewById(viewId);
+			view.setImageResource(R.drawable.empty_circle);
 		}
 
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
@@ -415,7 +415,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	}
 
 	private void setCodebreakerButton(int index, boolean pressed) {
-		View view = codebreakerPanel.findViewById(PLACE_VIEW_IDS[index]);
+		ImageView view = codebreakerPanel.findViewById(PLACE_VIEW_IDS[index]);
 
 		int drawable = (pressed) ? R.drawable.empty_circle_pressed : R.drawable.empty_circle;
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
@@ -441,7 +441,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 					break;
 			}
 		}
-		view.setBackgroundResource(drawable);
+		view.setImageResource(drawable);
 	}
 
 
