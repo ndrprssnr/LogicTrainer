@@ -21,6 +21,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
@@ -54,33 +55,6 @@ public class MainActivityTest {
 	private final ViewAssertion matchesBrownCircle = matchesViewWithSrc(R.drawable.brown_circle);
 	private final ViewAssertion matchesBrownCirclePressed = matchesViewWithSrc(R.drawable.brown_circle_pressed);
 
-	private class ImageViewSrcMatcher extends BoundedMatcher<View, ImageView> {
-		int drawableID;
-
-		public ImageViewSrcMatcher(int drawableID) {
-			super(ImageView.class);
-			this.drawableID = drawableID;
-		}
-
-		@Override
-		public void describeTo(Description description) {
-			description.appendText("has image with drawable " + drawableID);
-		}
-
-		@Override
-		protected boolean matchesSafely(ImageView item) {
-				BitmapDrawable expected = (BitmapDrawable) ContextCompat.getDrawable(getApplicationContext(), drawableID);
-				BitmapDrawable back = (BitmapDrawable) item.getDrawable();
-
-			assert expected != null;
-			return ((BitmapDrawable) expected).getBitmap().sameAs(back.getBitmap());
-		}
-
-	}
-
-	private ViewAssertion matchesViewWithSrc(int drawableId) {
-		return matches(new ImageViewSrcMatcher(drawableId));
-	}
 
 	@Before
 	public void before() {
@@ -125,8 +99,58 @@ public class MainActivityTest {
 		onView(withId(R.id.codebreaker_panel_place0)).check(matchesBrownCircle).perform(click()).check(matchesBrownCirclePressed);
 	}
 
+	@Test
+	public void testCanDisableAndEnableColorChooser() {
+		checkDisableAndEnableColor(R.id.color_chooser_red, matchesRedCircle);
+		checkDisableAndEnableColor(R.id.color_chooser_green, matchesGreenCircle);
+		checkDisableAndEnableColor(R.id.color_chooser_blue, matchesBlueCircle);
+		checkDisableAndEnableColor(R.id.color_chooser_yellow, matchesYellowCircle);
+		checkDisableAndEnableColor(R.id.color_chooser_orange, matchesOrangeCircle);
+		checkDisableAndEnableColor(R.id.color_chooser_brown, matchesBrownCircle);
+	}
+
+	private void checkDisableAndEnableColor(int colorChooserId, ViewAssertion colorMatcher) {
+		// long press to disable, check that click does not alter codebreaker panel
+		onView(withId(colorChooserId)).perform(longClick()).perform(click());
+		onView(withId(R.id.codebreaker_panel_place0)).check(matchesEmptyCirclePressed);
+		// long press to enable, check that click alters codebreaker panel
+		onView(withId(colorChooserId)).perform(longClick()).perform(click());
+		onView(withId(R.id.codebreaker_panel_place0)).check(colorMatcher);
+		// clean up first panel place
+		onView(withId(R.id.codebreaker_panel_place0)).perform(click());
+		onView(withId(R.id.color_chooser_empty)).perform(click());
+	}
+
 	private Context getApplicationContext() {
 		return InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
+	}
+
+	private class ImageViewSrcMatcher extends BoundedMatcher<View, ImageView> {
+		int drawableID;
+
+		public ImageViewSrcMatcher(int drawableID) {
+			super(ImageView.class);
+			this.drawableID = drawableID;
+		}
+
+		@Override
+		public void describeTo(Description description) {
+			description.appendText("has image with drawable " + drawableID);
+		}
+
+		@Override
+		protected boolean matchesSafely(ImageView item) {
+			BitmapDrawable expected = (BitmapDrawable) ContextCompat.getDrawable(getApplicationContext(), drawableID);
+			BitmapDrawable back = (BitmapDrawable) item.getDrawable();
+
+			assert expected != null;
+			return ((BitmapDrawable) expected).getBitmap().sameAs(back.getBitmap());
+		}
+
+	}
+
+	private ViewAssertion matchesViewWithSrc(int drawableId) {
+		return matches(new ImageViewSrcMatcher(drawableId));
 	}
 
 }
