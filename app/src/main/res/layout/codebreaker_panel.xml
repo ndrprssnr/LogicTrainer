@@ -12,27 +12,26 @@
         android:paddingTop="10dip"
         android:paddingStart="10dip">
 
-        <TextView
+        <ImageView
             android:id="@+id/codebreaker_panel_place0"
             style="@style/play_choice_text"
             android:clickable="true"
             android:focusable="true">
-        </TextView>
-
-        <TextView
+        </ImageView>
+        <ImageView
             android:id="@+id/codebreaker_panel_place1"
             style="@style/play_choice_text" >
-        </TextView>
+        </ImageView>
 
-        <TextView
+        <ImageView
             android:id="@+id/codebreaker_panel_place2"
             style="@style/play_choice_text" >
-        </TextView>
+        </ImageView>
 
-        <TextView
+        <ImageView
             android:id="@+id/codebreaker_panel_place3"
             style="@style/play_choice_text" >
-        </TextView>
+        </ImageView>
 
         <Button
             android:id="@+id/check_button"

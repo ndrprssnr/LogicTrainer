@@ -415,7 +415,7 @@ public class MainActivity extends Activity implements OnGesturePerformedListener
 	}
 
 	private void setCodebreakerButton(int index, boolean pressed) {
-		TextView view = codebreakerPanel.findViewById(PLACE_VIEW_IDS[index]);
+		View view = codebreakerPanel.findViewById(PLACE_VIEW_IDS[index]);
 
 		int drawable = (pressed) ? R.drawable.empty_circle_pressed : R.drawable.empty_circle;
 		LogicTrainer trainer = ((LogicTrainerApplication) getApplicationContext()).getLogicTrainer();
