@@ -25,19 +25,19 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <TextView
+        <ImageView
             android:id="@+id/codebreaker_panel_place0"
             style="@style/play_choice_rdo_text" />
 
-        <TextView
+        <ImageView
             android:id="@+id/codebreaker_panel_place1"
             style="@style/play_choice_rdo_text" />
 
-        <TextView
+        <ImageView
             android:id="@+id/codebreaker_panel_place2"
             style="@style/play_choice_rdo_text" />
 
-        <TextView
+        <ImageView
             android:id="@+id/codebreaker_panel_place3"
             style="@style/play_choice_rdo_text" />
     </LinearLayout>
