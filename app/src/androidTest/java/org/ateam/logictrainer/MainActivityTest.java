@@ -3,9 +3,12 @@ package org.ateam.logictrainer;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.ImageView;
 
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,9 +26,11 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 /**
@@ -63,8 +68,30 @@ public class MainActivityTest {
 	}
 
 	@Test
-	public void testGameStart() {
+	public void testGameStartCheckButtonIsDisabled() {
 		onView(withId(R.id.check_button)).check(matches(isDisplayed())).check(matches(not(isEnabled())));
+	}
+
+	@Test
+	public void testPressCheckButtonAddsCodebreakerPanelToList() {
+		// check, that list of codebreaker panels is empty
+		onView(withId(R.id.codebreaker_panels)).check(matches(hasChildCount(0)));
+		// fill codebreaker panel and press "Check" button
+		onView(withId(R.id.color_chooser_red)).perform(click());
+		onView(withId(R.id.codebreaker_panel_place0)).check(matchesRedCircle);
+		onView(withId(R.id.color_chooser_green)).perform(click());
+		onView(withId(R.id.codebreaker_panel_place1)).check(matchesGreenCircle);
+		onView(withId(R.id.color_chooser_blue)).perform(click());
+		onView(withId(R.id.codebreaker_panel_place2)).check(matchesBlueCircle);
+		onView(withId(R.id.color_chooser_yellow)).perform(click());
+		onView(withId(R.id.codebreaker_panel_place3)).check(matchesYellowCircle);
+		onView(withId(R.id.check_button)).check(matches(allOf(isDisplayed(), isEnabled()))).perform(click());
+		// check that codebreaker panels contains 1 new child codebreaker panel with the chosen colors
+		onView(withId(R.id.codebreaker_panels)).check(matches(hasChildCount(1)));
+		onView(allOf(withAncestor(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place0))).check(matchesRedCircle);
+		onView(allOf(withAncestor(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place1))).check(matchesGreenCircle);
+		onView(allOf(withAncestor(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place2))).check(matchesBlueCircle);
+		onView(allOf(withAncestor(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place3))).check(matchesYellowCircle);
 	}
 
 	@Test
@@ -153,4 +180,24 @@ public class MainActivityTest {
 		return matches(new ImageViewSrcMatcher(drawableId));
 	}
 
+	private static Matcher<View> withAncestor(Matcher<View> ancestorMatcher) {
+		return new TypeSafeDiagnosingMatcher<View>() {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("ancestor ").appendDescriptionOf(ancestorMatcher);
+			}
+
+			@Override
+			protected boolean matchesSafely(View view, Description mismatchDescription) {
+				ViewParent ancestor = view.getParent();
+				while (ancestor != null) {
+					if (ancestorMatcher.matches(ancestor)) {
+						return true;
+					}
+					ancestor = ancestor.getParent();
+				}
+				return false;
+			}
+		};
+	}
 }
