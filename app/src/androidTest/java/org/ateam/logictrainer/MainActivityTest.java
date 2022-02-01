@@ -3,12 +3,9 @@ package org.ateam.logictrainer;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.ImageView;
 
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,6 +24,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -88,10 +86,10 @@ public class MainActivityTest {
 		onView(withId(R.id.check_button)).check(matches(allOf(isDisplayed(), isEnabled()))).perform(click());
 		// check that codebreaker panels contains 1 new child codebreaker panel with the chosen colors
 		onView(withId(R.id.codebreaker_panels)).check(matches(hasChildCount(1)));
-		onView(allOf(withAncestor(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place0))).check(matchesRedCircle);
-		onView(allOf(withAncestor(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place1))).check(matchesGreenCircle);
-		onView(allOf(withAncestor(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place2))).check(matchesBlueCircle);
-		onView(allOf(withAncestor(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place3))).check(matchesYellowCircle);
+		onView(allOf(isDescendantOfA(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place0))).check(matchesRedCircle);
+		onView(allOf(isDescendantOfA(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place1))).check(matchesGreenCircle);
+		onView(allOf(isDescendantOfA(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place2))).check(matchesBlueCircle);
+		onView(allOf(isDescendantOfA(withId(R.id.codebreaker_panels)), withId(R.id.codebreaker_panel_place3))).check(matchesYellowCircle);
 	}
 
 	@Test
@@ -178,26 +176,5 @@ public class MainActivityTest {
 
 	private ViewAssertion matchesViewWithSrc(int drawableId) {
 		return matches(new ImageViewSrcMatcher(drawableId));
-	}
-
-	private static Matcher<View> withAncestor(Matcher<View> ancestorMatcher) {
-		return new TypeSafeDiagnosingMatcher<View>() {
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("ancestor ").appendDescriptionOf(ancestorMatcher);
-			}
-
-			@Override
-			protected boolean matchesSafely(View view, Description mismatchDescription) {
-				ViewParent ancestor = view.getParent();
-				while (ancestor != null) {
-					if (ancestorMatcher.matches(ancestor)) {
-						return true;
-					}
-					ancestor = ancestor.getParent();
-				}
-				return false;
-			}
-		};
 	}
 }
